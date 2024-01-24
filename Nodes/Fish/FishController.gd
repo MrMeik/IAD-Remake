@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@export var food_source: Node2D
+
 const RESTRICTED_ANGLE: float = 55
 const MOVE_WIDTH: float = 15;
 const MAX_SPEED: float = 15;
@@ -28,13 +30,15 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 			pass
 		TargetMode.HUNGER: 
-			var food_target = determine_closest_food_target()
-			if (move_to_target(food_target, delta)):
-				target_mode = TargetMode.WAIT	
-				target_urgency = TargetMoveUrgency.NORMAL
-				# Resets the hunger timer
-				$HungerTimer.start(2)
-			pass
+			var food_options: Array[Node] = food_source.get_children()
+			if (food_options.size() > 0): 			
+				var food_target = determine_closest_food_target(food_options)
+				if (move_to_target(food_target, delta)):
+					target_mode = TargetMode.WAIT	
+					target_urgency = TargetMoveUrgency.NORMAL
+					# Resets the hunger timer
+					$HungerTimer.start(2)
+				pass
 	move_and_slide();
 
 func move_to_target(target: Vector2, delta: float) -> bool:	
@@ -96,9 +100,17 @@ func is_direction_valid(direction: Vector2) -> bool:
 	var angle = rad_to_deg(direction.angle())
 	return abs(90 - abs(angle)) > RESTRICTED_ANGLE
 	
-func determine_closest_food_target() -> Vector2:
-	#TODO: Look for food
-	return get_global_mouse_position()
+func determine_closest_food_target(food_options: Array[Node]) -> Vector2:
+	var min_distance: float = 1000000000
+	var min_node: Node2D = food_options[0]
+	
+	for child in food_source.get_children():
+		var distance_to: float = position.distance_squared_to((child as Node2D).position)
+		if (distance_to < min_distance):
+			min_distance = distance_to
+			min_node = child as Node2D
+	
+	return min_node.position
 
 func _on_hunger_timer_timeout() -> void:
 	target_mode = TargetMode.HUNGER	

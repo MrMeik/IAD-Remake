@@ -6,7 +6,8 @@
 
 [node name="TankScene" type="Node2D"]
 
-[node name="Fish" parent="." instance=ExtResource("1_pygri")]
+[node name="Fish" parent="." node_paths=PackedStringArray("food_source") instance=ExtResource("1_pygri")]
+food_source = NodePath("../food_spawner")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)

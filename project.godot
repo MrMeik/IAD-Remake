@@ -12,8 +12,14 @@ config_version=5
 
 config/name="Iad Remake"
 run/main_scene="res://Nodes/Tanks/base_tank_scene.tscn"
-config/features=PackedStringArray("4.1", "Mobile")
+config/features=PackedStringArray("4.1", "C#", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="viewport"
 
 [dotnet]
 

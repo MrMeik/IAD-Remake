@@ -43,6 +43,7 @@ texture_repeat = 1
 sprite_frames = SubResource("SpriteFrames_eh4rk")
 animation = &"turn"
 autoplay = "turn"
+speed_scale = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mrypw")

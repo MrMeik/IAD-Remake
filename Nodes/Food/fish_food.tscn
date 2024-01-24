@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://bd53uinyvkoj"]
+
+[ext_resource type="Texture2D" uid="uid://bvmg0yw0e52df" path="res://Sprites/Food/Food_Basic.png" id="1_0ues2"]
+[ext_resource type="Script" path="res://Nodes/Food/FishFood.gd" id="1_lvh35"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugqrf"]
+atlas = ExtResource("1_0ues2")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evfbq"]
+atlas = ExtResource("1_0ues2")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhs8l"]
+atlas = ExtResource("1_0ues2")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8ev1"]
+atlas = ExtResource("1_0ues2")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ciotr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugqrf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_evfbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhs8l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j8ev1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s6wg8"]
+radius = 3.0
+
+[node name="fish_food" type="Area2D"]
+script = ExtResource("1_lvh35")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ciotr")
+frame_progress = 0.0123543
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_s6wg8")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

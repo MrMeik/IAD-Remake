@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var food_source: Node2D
+@onready var _animation_player = $AnimatedSprite2D
 
 const RESTRICTED_ANGLE: float = 55
 const MOVE_WIDTH: float = 15;
@@ -14,12 +15,16 @@ var target_mode: TargetMode = TargetMode.MOVE
 var target_urgency: TargetMoveUrgency = TargetMoveUrgency.NORMAL;
 var previous_target_delta: Vector2 = Vector2.ZERO
 
+var is_turning: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	var previousVelocityX = velocity.x
+	
 	match target_mode:
 		TargetMode.MOVE:
 			if (move_to_target(get_global_mouse_position(), delta)):
@@ -38,8 +43,19 @@ func _physics_process(delta: float) -> void:
 					target_urgency = TargetMoveUrgency.NORMAL
 					# Resets the hunger timer
 					$HungerTimer.start(2)
-				pass
+			else:
+				velocity = Vector2.ZERO
 	move_and_slide();
+	
+	# Check to see if direction has flipped, need to change animation
+	if (!is_turning and velocity.x != 0 and _is_facing_oppisite_of_travel()):
+		# Verify facing correct direction
+		_animation_player.play("turn")
+		is_turning = true
+		print("turning")
+
+func _is_facing_oppisite_of_travel():
+	return (sign(velocity.x) == 1 and _animation_player.flip_h) or (sign(velocity.x) != 1 and !_animation_player.flip_h)
 
 func move_to_target(target: Vector2, delta: float) -> bool:	
 	var target_delta = target - position
@@ -116,3 +132,15 @@ func _on_hunger_timer_timeout() -> void:
 	target_mode = TargetMode.HUNGER	
 	target_urgency = TargetMoveUrgency.QUICK
 	pass
+
+func _on_animated_sprite_2d_animation_finished():
+	print("finished")
+	if (_animation_player.animation == "turn"):
+		if(_animation_player.frame == 0):
+			_animation_player.play("move_right")
+			print("move_right")
+			is_turning = false
+		else:
+			_animation_player.play_backwards("turn")
+			_animation_player.flip_h = !_animation_player.flip_h
+			print("flip_anim")

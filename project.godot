@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Iad Remake"
 run/main_scene="res://Nodes/Tanks/base_tank_scene.tscn"
-config/features=PackedStringArray("4.1", "C#", "Mobile")
+config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
 [display]

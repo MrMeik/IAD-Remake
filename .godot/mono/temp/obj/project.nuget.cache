@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "LsiAT8sFPf7d47wWiIdMxbqs2uNWJW4xtGO4+EMlQPmxGJvkrrGlJI1Cx3CZY4HInUl8gDDfUBUG4v1vUYc29Q==",
+  "success": true,
+  "projectFilePath": "D:\\Game Dev\\IAD Remake\\Iad Remake.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mlaba\\.nuget\\packages\\godot.sourcegenerators\\4.1.1\\godot.sourcegenerators.4.1.1.nupkg.sha512",
+    "C:\\Users\\mlaba\\.nuget\\packages\\godotsharp\\4.1.1\\godotsharp.4.1.1.nupkg.sha512",
+    "C:\\Users\\mlaba\\.nuget\\packages\\godotsharpeditor\\4.1.1\\godotsharpeditor.4.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}

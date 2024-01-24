@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cytie2hs1n5tk"]
+
+[ext_resource type="PackedScene" uid="uid://kph8dsufgkl0" path="res://Nodes/Fish/fish_base.tscn" id="1_pygri"]
+
+[node name="TankScene" type="Node2D"]
+
+[node name="Fish" parent="." instance=ExtResource("1_pygri")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(6, 6)

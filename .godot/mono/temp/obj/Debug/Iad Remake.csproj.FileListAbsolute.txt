@@ -1,0 +1,17 @@
+D:\Game Dev\IAD Remake\.godot\mono\temp\bin\Debug\Iad Remake.deps.json
+D:\Game Dev\IAD Remake\.godot\mono\temp\bin\Debug\Iad Remake.runtimeconfig.json
+D:\Game Dev\IAD Remake\.godot\mono\temp\bin\Debug\Iad Remake.dll
+D:\Game Dev\IAD Remake\.godot\mono\temp\bin\Debug\Iad Remake.pdb
+D:\Game Dev\IAD Remake\.godot\mono\temp\bin\Debug\GodotSharp.dll
+D:\Game Dev\IAD Remake\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.csproj.AssemblyReference.cache
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.GeneratedMSBuildEditorConfig.editorconfig
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.AssemblyInfoInputs.cache
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.AssemblyInfo.cs
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.csproj.CoreCompileInputs.cache
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.csproj.CopyComplete
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.dll
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\refint\Iad Remake.dll
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.pdb
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\Iad Remake.genruntimeconfig.cache
+D:\Game Dev\IAD Remake\.godot\mono\temp\obj\Debug\ref\Iad Remake.dll

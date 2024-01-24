@@ -1,0 +1,12 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1705975202
+icon.svg::CompressedTexture2D::7066626229366432532::1705551546::1705551555::1::::<><>::
+::res://Aseprite/::1705971011
+::res://Nodes/::1705971808
+::res://Nodes/Fish/::1705975039
+fish_base.tscn::PackedScene::733338239131615159::1705975039::0::1::::<><>::uid://bdrj1xofnwdly::::res://Sprites/Fish/large_goldfish.png
+::res://Nodes/Tanks/::1705975039
+base_tank_scene.tscn::PackedScene::6497091100941079824::1705975039::0::1::::<><>::uid://kph8dsufgkl0::::res://Nodes/Fish/fish_base.tscn
+::res://Sprites/::1705971869
+::res://Sprites/Fish/::1705971854
+large_goldfish.png::CompressedTexture2D::2632675749912373050::1705971192::1705971854::1::::<><>::

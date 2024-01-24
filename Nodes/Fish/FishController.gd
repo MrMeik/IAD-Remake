@@ -3,6 +3,7 @@ extends CharacterBody2D
 const RESTRICTED_ANGLE: float = 55
 const MOVE_WIDTH: float = 15;
 const MAX_SPEED: float = 15;
+
 enum TargetMode { TRACK, MOVE, WAIT, HUNGER }
 enum TargetMoveUrgency { QUICK = 4, NORMAL = 2, SLOW = 1 }
 
@@ -15,31 +16,26 @@ var previous_target_delta: Vector2 = Vector2.ZERO
 func _ready():
 	pass # Replace with function body.
 	
-func _process(delta: float) -> void:
-	pass
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	match target_mode:
 		TargetMode.MOVE:
 			if (move_to_target(get_global_mouse_position(), delta)):
-				target_mode = TargetMode.WAIT	
-				target_urgency = TargetMoveUrgency.NORMAL		
-			pass	
+				target_mode = TargetMode.WAIT
+				target_urgency = TargetMoveUrgency.NORMAL
+			pass
 		TargetMode.WAIT:
 			velocity = Vector2.ZERO
-			pass	
+			pass
 		TargetMode.HUNGER: 
 			var food_target = determine_closest_food_target()
-			if (move_to_target(get_global_mouse_position(), delta)):
+			if (move_to_target(food_target, delta)):
 				target_mode = TargetMode.WAIT	
 				target_urgency = TargetMoveUrgency.NORMAL
 				# Resets the hunger timer
 				$HungerTimer.start(2)
-			pass			
-			
-	move_and_slide();		
-	
+			pass
+	move_and_slide();
 
 func move_to_target(target: Vector2, delta: float) -> bool:	
 	var target_delta = target - position
@@ -58,7 +54,7 @@ func move_to_target(target: Vector2, delta: float) -> bool:
 	var new_velocity = velocity.slerp(target_direction * MAX_SPEED * target_urgency, .25)
 		
 	var new_position = position + new_velocity * delta 	
-	var new_target_delta = target - position	
+	var new_target_delta = target - new_position	
 	
 	var has_crossed = target_delta.dot(new_target_delta) < 0
 	
@@ -100,32 +96,6 @@ func is_direction_valid(direction: Vector2) -> bool:
 	var angle = rad_to_deg(direction.angle())
 	return abs(90 - abs(angle)) > RESTRICTED_ANGLE
 	
-static func old_determine_clamped_target_direction(vector_to_target: Vector2, last_target_direction: Vector2) -> Vector2:
-	var normalized_delta = vector_to_target.normalized()
-	
-	var movement_axis: int = determine_movement_axis(normalized_delta)	
-	if (movement_axis == 2 or movement_axis == 6):		
-		if (abs(vector_to_target.x) >= MOVE_WIDTH):
-			# Take 45 in direction of target
-			return Vector2(sign(vector_to_target.x), sign(vector_to_target.y)).normalized()
-		else: 
-			var previous_axis = determine_movement_axis(last_target_direction)
-			
-			if (previous_axis % 2 == 1 and sign(last_target_direction.y) == sign(vector_to_target.y)):
-				return last_target_direction.normalized()
-			else:
-				return Vector2(sign(vector_to_target.x), sign(vector_to_target.y)).normalized()		
-	else:	
-		var snapped_angle = movement_axis * 45
-		var snapped_normal = Vector2.from_angle(deg_to_rad(snapped_angle))
-		
-		return snapped_normal.normalized()
-
-static func determine_movement_axis(vector: Vector2) -> int:	
-	var angle = int(rad_to_deg(vector.angle()) + 360 + 22.5) % 360
-	var movement_axis: int = floor(angle / 45);
-	return movement_axis
-
 func determine_closest_food_target() -> Vector2:
 	#TODO: Look for food
 	return get_global_mouse_position()

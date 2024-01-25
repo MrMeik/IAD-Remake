@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 @export var food_source: Node2D
-@onready var _animation_player = $AnimatedSprite2D
+@onready var _animation_player = $AnimationPlayer
+@onready var _animated_sprite = $AnimatedSprite2D
 
 const RESTRICTED_ANGLE: float = 55
 const MOVE_WIDTH: float = 15;
@@ -49,13 +50,16 @@ func _physics_process(delta: float) -> void:
 	
 	# Check to see if direction has flipped, need to change animation
 	if (!is_turning and velocity.x != 0 and _is_facing_oppisite_of_travel()):
-		# Verify facing correct direction
-		_animation_player.play("turn")
+		if (_animated_sprite.flip_h):			
+			_animation_player.play_backwards("turn_r_to_l")
+		else:
+			_animation_player.play("turn_r_to_l")	
+		
 		is_turning = true
 		print("turning")
 
 func _is_facing_oppisite_of_travel():
-	return (sign(velocity.x) == 1 and _animation_player.flip_h) or (sign(velocity.x) != 1 and !_animation_player.flip_h)
+	return (sign(velocity.x) == 1 and _animated_sprite.flip_h) or (sign(velocity.x) != 1 and !_animated_sprite.flip_h)
 
 func move_to_target(target: Vector2, delta: float) -> bool:	
 	var target_delta = target - position
@@ -129,18 +133,28 @@ func determine_closest_food_target(food_options: Array[Node]) -> Vector2:
 	return min_node.position
 
 func _on_hunger_timer_timeout() -> void:
-	target_mode = TargetMode.HUNGER	
-	target_urgency = TargetMoveUrgency.QUICK
+	#target_mode = TargetMode.HUNGER	
+	#target_urgency = TargetMoveUrgency.QUICK
 	pass
 
-func _on_animated_sprite_2d_animation_finished():
+#func _on_animated_sprite_2d_animation_finished():
+	#print("finished")
+	#if (_animation_player.animation == "turn"):
+		#if(_animation_player.frame == 0):
+			#_animation_player.play("move_right")
+			#print("move_right")
+			#is_turning = false
+		#else:
+			#_animation_player.play_backwards("turn")
+			#_animation_player.flip_h = !_animation_player.flip_h
+			#print("flip_anim")
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	print("finished")
-	if (_animation_player.animation == "turn"):
-		if(_animation_player.frame == 0):
-			_animation_player.play("move_right")
-			print("move_right")
-			is_turning = false
+	if (anim_name == "turn_r_to_l"):
+		is_turning = false
+		if (_animated_sprite.flip_h):
+			_animation_player.play("swim_left")
 		else:
-			_animation_player.play_backwards("turn")
-			_animation_player.flip_h = !_animation_player.flip_h
-			print("flip_anim")
+			_animation_player.play("swim_right")

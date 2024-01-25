@@ -258,7 +258,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oo5h0"]
-radius = 5.0
+radius = 5.09902
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_8q7o5")
@@ -284,6 +284,8 @@ libraries = {
 }
 
 [node name="Mouth" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="MouthCollider" type="CollisionShape2D" parent="Mouth"]
 position = Vector2(16, 8)
@@ -291,3 +293,4 @@ shape = SubResource("CircleShape2D_oo5h0")
 
 [connection signal="timeout" from="HungerTimer" to="." method="_on_hunger_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="Mouth" to="." method="_on_mouth_area_entered"]

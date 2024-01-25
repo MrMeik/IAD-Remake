@@ -43,12 +43,15 @@ animations = [{
 radius = 3.0
 
 [node name="fish_food" type="Area2D"]
+collision_layer = 2
 script = ExtResource("1_lvh35")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_ciotr")
-frame_progress = 0.36451
+autoplay = "default"
+frame = 2
+frame_progress = 0.494032
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_s6wg8")

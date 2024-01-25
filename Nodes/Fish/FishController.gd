@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var food_source: Node2D
 @onready var _animation_player = $AnimationPlayer
 @onready var _animated_sprite = $AnimatedSprite2D
+@onready var _mouth = $Mouth
 
 const RESTRICTED_ANGLE: float = 55
 const MOVE_WIDTH: float = 15;
@@ -53,16 +54,15 @@ func _physics_process(delta: float) -> void:
 		if (_animated_sprite.flip_h):			
 			_animation_player.play_backwards("turn_r_to_l")
 		else:
-			_animation_player.play("turn_r_to_l")	
-		
+			_animation_player.play("turn_r_to_l")
 		is_turning = true
-		print("turning")
 
 func _is_facing_oppisite_of_travel():
 	return (sign(velocity.x) == 1 and _animated_sprite.flip_h) or (sign(velocity.x) != 1 and !_animated_sprite.flip_h)
 
 func move_to_target(target: Vector2, delta: float) -> bool:	
-	var target_delta = target - position
+	var mouth_position = _mouth.global_position
+	var target_delta = target - mouth_position
 	var remaining_distance = target_delta.length();
 	if (remaining_distance < 1):
 		velocity = Vector2.ZERO
@@ -77,7 +77,7 @@ func move_to_target(target: Vector2, delta: float) -> bool:
 	previous_target_delta = target_direction
 	var new_velocity = velocity.slerp(target_direction * MAX_SPEED * target_urgency, .25)
 		
-	var new_position = position + new_velocity * delta 	
+	var new_position = mouth_position + new_velocity * delta 	
 	var new_target_delta = target - new_position	
 	
 	var has_crossed = target_delta.dot(new_target_delta) < 0
@@ -123,9 +123,10 @@ func is_direction_valid(direction: Vector2) -> bool:
 func determine_closest_food_target(food_options: Array[Node]) -> Vector2:
 	var min_distance: float = 1000000000
 	var min_node: Node2D = food_options[0]
+	var mouth_position = _mouth.global_position
 	
 	for child in food_source.get_children():
-		var distance_to: float = position.distance_squared_to((child as Node2D).position)
+		var distance_to: float = mouth_position.distance_squared_to((child as Node2D).position)
 		if (distance_to < min_distance):
 			min_distance = distance_to
 			min_node = child as Node2D
@@ -133,28 +134,19 @@ func determine_closest_food_target(food_options: Array[Node]) -> Vector2:
 	return min_node.position
 
 func _on_hunger_timer_timeout() -> void:
-	#target_mode = TargetMode.HUNGER	
-	#target_urgency = TargetMoveUrgency.QUICK
+	target_mode = TargetMode.HUNGER	
+	target_urgency = TargetMoveUrgency.QUICK
 	pass
 
-#func _on_animated_sprite_2d_animation_finished():
-	#print("finished")
-	#if (_animation_player.animation == "turn"):
-		#if(_animation_player.frame == 0):
-			#_animation_player.play("move_right")
-			#print("move_right")
-			#is_turning = false
-		#else:
-			#_animation_player.play_backwards("turn")
-			#_animation_player.flip_h = !_animation_player.flip_h
-			#print("flip_anim")
-
-
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	print("finished")
 	if (anim_name == "turn_r_to_l"):
 		is_turning = false
 		if (_animated_sprite.flip_h):
 			_animation_player.play("swim_left")
 		else:
 			_animation_player.play("swim_right")
+
+func _on_mouth_area_entered(area: Area2D) -> void:
+	#print(area.name)
+	area.queue_free()
+	pass # Replace with function body.

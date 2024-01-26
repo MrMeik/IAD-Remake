@@ -6,6 +6,10 @@ extends CharacterBody2D
 @onready var _mouth = $Mouth
 @onready var _movement_cooldown_timer = $MovementCooldownTimer
 @onready var _move_in_direction_timer = $MoveInDirectionTimer
+@onready var _hunger_timer = $HungerTimer
+@onready var _hunger_color_shift_timer = $HungerColorShiftTimer
+@onready var _hunger_death_timer = $HungerDeathTimer
+@onready var _hunger_color_shade = $HungerColor
 
 const RESTRICTED_ANGLE: float = 55
 const MOVE_WIDTH: float = 30;
@@ -25,6 +29,8 @@ var passive_movement_vector: Vector2 = Vector2.ZERO
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_animation_player.play("swim_right")
+	_hunger_timer.start(8) #Fish will become hungry after 8 seconds	
+	_hunger_color_shade.visible = false
 	pass # Replace with function body.
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -41,8 +47,7 @@ func _physics_process(delta: float) -> void:
 			is_targeting_food = true
 			var food_target = determine_closest_food_target(food_options)
 			if (move_to_target(food_target, delta)):				
-				# Resets the hunger timer
-				$HungerTimer.start(2)
+				pass
 				
 	if (!is_targeting_food):
 		if (allow_passive_move):
@@ -144,9 +149,6 @@ func determine_closest_food_target(food_options: Array[Node]) -> Vector2:
 	
 	return min_node.position
 
-func _on_hunger_timer_timeout() -> void:
-	is_hungry = true
-
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if (anim_name == "turn_r_to_l"):
 		is_turning = false
@@ -157,14 +159,37 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 func _on_mouth_area_entered(area: Area2D) -> void:
 	# Eat the food
-	area.queue_free()
-	is_hungry = false
+	if (area is FishFood):
+		var food: FishFood = area
+		area.queue_free()
+		is_hungry = false
+		_hunger_death_timer.stop()
+		_hunger_color_shift_timer.stop()
+		_hunger_timer.start(food.food_hunger_timeout)
+		_hunger_color_shade.visible = false
 
 func _on_movement_cooldown_timer_timeout() -> void:
 	allow_passive_move = true
 
-# Once moved in direction for sufficient amount of time, stop moving for a while
 func _on_move_in_direction_timer_timeout() -> void:
+	# Once moved in direction for sufficient amount of time, stop moving for a while
 	allow_passive_move = false	
 	_movement_cooldown_timer.start(randf_range(1, 6))
 	passive_movement_vector = passive_movement_vector.normalized() * IDLE_SPEED
+
+
+# Timers related to being hungry / dying from hunger
+func _on_hunger_timer_timeout() -> void:
+	is_hungry = true
+	_hunger_color_shift_timer.start()
+	_hunger_death_timer.start()
+
+func _on_hunger_color_shift_timer_timeout() -> void:
+	# Recolor fish to be green (he's hungry)
+	_hunger_color_shade.visible = true 
+	pass # Replace with function body.
+
+func _on_hunger_death_timer_timeout() -> void:
+	# Fish will now die
+	# TODO: Play starve animation and persist body for a bit
+	queue_free()

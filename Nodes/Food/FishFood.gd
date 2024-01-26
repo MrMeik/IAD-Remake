@@ -11,6 +11,9 @@ var hit_ground: bool = false
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var despawn_timer: Timer = $Timer
 
+@export var food_hunger_timeout: int = 8
+@export var food_growth_amount: int = 1
+
 func _physics_process(delta: float) -> void:
 	if (!hit_ground):		
 		var new_pos = position + transform.y * SPEED * delta

@@ -4,49 +4,53 @@ extends CharacterBody2D
 @onready var _animation_player = $AnimationPlayer
 @onready var _animated_sprite = $AnimatedSprite2D
 @onready var _mouth = $Mouth
+@onready var _movement_cooldown_timer = $MovementCooldownTimer
+@onready var _move_in_direction_timer = $MoveInDirectionTimer
 
 const RESTRICTED_ANGLE: float = 55
-const MOVE_WIDTH: float = 15;
-const MAX_SPEED: float = 15;
-
-enum TargetMode { TRACK, MOVE, WAIT, HUNGER }
-enum TargetMoveUrgency { QUICK = 4, NORMAL = 2, SLOW = 1 }
+const MOVE_WIDTH: float = 30;
+const MAX_SPEED: float = 60;
+const IDLE_SPEED: float = 2;
 
 var track_position: Vector2 = Vector2.ZERO
-var target_mode: TargetMode = TargetMode.MOVE
-var target_urgency: TargetMoveUrgency = TargetMoveUrgency.NORMAL;
 var previous_target_delta: Vector2 = Vector2.ZERO
+var is_hungry: bool = false
 
 var is_turning: bool = false
+var allow_passive_move: bool = true
+var can_move: bool = true
+
+var passive_movement_vector: Vector2 = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_animation_player.play("swim_right")
 	pass # Replace with function body.
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
-	var previousVelocityX = velocity.x
+func _physics_process(delta: float) -> void:	
+	if (!can_move):
+		velocity = passive_movement_vector.normalized() * IDLE_SPEED
+		move_and_slide();
+		return
 	
-	match target_mode:
-		TargetMode.MOVE:
-			if (move_to_target(get_global_mouse_position(), delta)):
-				target_mode = TargetMode.WAIT
-				target_urgency = TargetMoveUrgency.NORMAL
-			pass
-		TargetMode.WAIT:
-			velocity = Vector2.ZERO
-			pass
-		TargetMode.HUNGER: 
-			var food_options: Array[Node] = food_source.get_children()
-			if (food_options.size() > 0): 			
-				var food_target = determine_closest_food_target(food_options)
-				if (move_to_target(food_target, delta)):
-					target_mode = TargetMode.WAIT	
-					target_urgency = TargetMoveUrgency.NORMAL
-					# Resets the hunger timer
-					$HungerTimer.start(2)
-			else:
-				velocity = Vector2.ZERO
+	var is_targeting_food: bool = false
+	if (is_hungry):
+		var food_options: Array[Node] = food_source.get_children()
+		if (food_options.size() > 0): 			
+			is_targeting_food = true
+			var food_target = determine_closest_food_target(food_options)
+			if (move_to_target(food_target, delta)):				
+				# Resets the hunger timer
+				$HungerTimer.start(2)
+				
+	if (!is_targeting_food):
+		if (allow_passive_move):
+			passive_movement_vector = get_random_movement_direction()
+			allow_passive_move = false
+			_move_in_direction_timer.start(randf_range(3, 6))
+		velocity = passive_movement_vector
+	
 	move_and_slide();
 	
 	# Check to see if direction has flipped, need to change animation
@@ -60,6 +64,13 @@ func _physics_process(delta: float) -> void:
 func _is_facing_oppisite_of_travel():
 	return (sign(velocity.x) == 1 and _animated_sprite.flip_h) or (sign(velocity.x) != 1 and !_animated_sprite.flip_h)
 
+func get_random_movement_direction() -> Vector2:
+	#TODO: Make more random
+	var angle = EXTREME_ANGLES[randi() % 4]
+	var speed = randf_range(5, 12)
+	
+	return angle * speed
+
 func move_to_target(target: Vector2, delta: float) -> bool:	
 	var mouth_position = _mouth.global_position
 	var target_delta = target - mouth_position
@@ -70,12 +81,12 @@ func move_to_target(target: Vector2, delta: float) -> bool:
 		return true		
 	
 	if (remaining_distance < 5):
-		velocity = target_delta.normalized() * MAX_SPEED * target_urgency
+		velocity = target_delta.normalized() * MAX_SPEED
 		previous_target_delta = Vector2.ZERO		
 		
 	var target_direction = new_determine_clamped_target_direction(target_delta, previous_target_delta)
 	previous_target_delta = target_direction
-	var new_velocity = velocity.slerp(target_direction * MAX_SPEED * target_urgency, .25)
+	var new_velocity = velocity.slerp(target_direction * MAX_SPEED, .25)
 		
 	var new_position = mouth_position + new_velocity * delta 	
 	var new_target_delta = target - new_position	
@@ -134,9 +145,7 @@ func determine_closest_food_target(food_options: Array[Node]) -> Vector2:
 	return min_node.position
 
 func _on_hunger_timer_timeout() -> void:
-	target_mode = TargetMode.HUNGER	
-	target_urgency = TargetMoveUrgency.QUICK
-	pass
+	is_hungry = true
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if (anim_name == "turn_r_to_l"):
@@ -147,6 +156,15 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 			_animation_player.play("swim_right")
 
 func _on_mouth_area_entered(area: Area2D) -> void:
-	#print(area.name)
+	# Eat the food
 	area.queue_free()
-	pass # Replace with function body.
+	is_hungry = false
+
+func _on_movement_cooldown_timer_timeout() -> void:
+	allow_passive_move = true
+
+# Once moved in direction for sufficient amount of time, stop moving for a while
+func _on_move_in_direction_timer_timeout() -> void:
+	allow_passive_move = false	
+	_movement_cooldown_timer.start(randf_range(1, 6))
+	passive_movement_vector = passive_movement_vector.normalized() * IDLE_SPEED

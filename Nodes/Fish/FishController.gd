@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 		velocity = passive_movement_vector.normalized() * IDLE_SPEED
 		move_and_slide();
 		return
-	
+
 	var is_targeting_food: bool = false
 	if (is_hungry):
 		var food_options: Array[Node] = food_source.get_children()

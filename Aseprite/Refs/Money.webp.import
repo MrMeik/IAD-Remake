@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nrrumdlr23v7"
-path="res://.godot/imported/Medium_Goldfish.png-7d30621454b368b883a0f0cefa367da6.ctex"
+uid="uid://cjvhan1673u7q"
+path="res://.godot/imported/Money.webp-a5d130cd97de9359fc727641caa3df2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Fish/Medium_Goldfish.png"
-dest_files=["res://.godot/imported/Medium_Goldfish.png-7d30621454b368b883a0f0cefa367da6.ctex"]
+source_file="res://Aseprite/Refs/Money.webp"
+dest_files=["res://.godot/imported/Money.webp-a5d130cd97de9359fc727641caa3df2a.ctex"]
 
 [params]
 

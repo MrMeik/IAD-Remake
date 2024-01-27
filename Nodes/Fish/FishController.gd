@@ -43,22 +43,24 @@ func _physics_process(delta: float) -> void:
 		move_and_slide();
 		return
 
-	var is_targeting_food: bool = false
-	if (is_hungry):
-		var food_options: Array[Node] = food_source.get_children()
-		if (food_options.size() > 0): 			
-			is_targeting_food = true
-			var food_target = determine_closest_food_target(food_options)
-			if (move_to_target(food_target, delta)):				
-				pass
-				
-	if (!is_targeting_food):
-		if (allow_passive_move):
-			passive_movement_vector = get_random_movement_direction()
-			allow_passive_move = false
-			_move_in_direction_timer.start(randf_range(3, 6))
-		velocity = passive_movement_vector
-	
+	velocity = (get_global_mouse_position() - position).normalized() * MAX_SPEED
+
+	#var is_targeting_food: bool = false
+	#if (is_hungry):
+		#var food_options: Array[Node] = food_source.get_children()
+		#if (food_options.size() > 0): 			
+			#is_targeting_food = true
+			#var food_target = determine_closest_food_target(food_options)
+			#if (move_to_target(food_target, delta)):				
+				#pass
+				#
+	#if (!is_targeting_food):
+		#if (allow_passive_move):
+			#passive_movement_vector = get_random_movement_direction()
+			#allow_passive_move = false
+			#_move_in_direction_timer.start(randf_range(3, 6))
+		#velocity = passive_movement_vector
+	#
 	move_and_slide();
 	
 	# Check to see if direction has flipped, need to change animation

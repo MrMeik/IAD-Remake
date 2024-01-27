@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=7 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="PackedScene" uid="uid://kph8dsufgkl0" path="res://Nodes/Fish/fish_base.tscn" id="1_pygri"]
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
 [ext_resource type="PackedScene" uid="uid://bd53uinyvkoj" path="res://Nodes/Food/fish_food.tscn" id="3_f5sd5"]
 [ext_resource type="Texture2D" uid="uid://c6c6gdinqh6iq" path="res://Sprites/GUI/Top_GUI.png" id="4_qkrsg"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ibeik"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hnyi2"]
 
@@ -20,11 +22,37 @@ process_callback = 0
 script = ExtResource("2_wldbg")
 food_to_spawn = ExtResource("3_f5sd5")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Tank Borders" type="Node" parent="."]
+
+[node name="Left Border" type="StaticBody2D" parent="Tank Borders"]
+position = Vector2(-225, 0)
+rotation = 1.5708
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, 127)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tank Borders/Left Border"]
+shape = SubResource("WorldBoundaryShape2D_ibeik")
+
+[node name="Right Border" type="StaticBody2D" parent="Tank Borders"]
+position = Vector2(225, 0)
+rotation = -1.5708
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tank Borders/Right Border"]
+shape = SubResource("WorldBoundaryShape2D_ibeik")
+
+[node name="Bottom Border" type="StaticBody2D" parent="Tank Borders"]
+position = Vector2(0, 126)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tank Borders/Bottom Border"]
+shape = SubResource("WorldBoundaryShape2D_hnyi2")
+
+[node name="Top Border" type="StaticBody2D" parent="Tank Borders"]
+position = Vector2(0, -75)
+rotation = 3.14159
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tank Borders/Top Border"]
 shape = SubResource("WorldBoundaryShape2D_hnyi2")
 
 [node name="GUI" type="Node" parent="."]

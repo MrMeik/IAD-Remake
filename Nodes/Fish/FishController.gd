@@ -24,6 +24,8 @@ var is_turning: bool = false
 var allow_passive_move: bool = true
 var can_move: bool = true
 
+var facing_left: bool = false
+
 var passive_movement_vector: Vector2 = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
@@ -31,6 +33,7 @@ func _ready():
 	_animation_player.play("swim_right")
 	_hunger_timer.start(8) #Fish will become hungry after 8 seconds	
 	_hunger_color_shade.visible = false
+	facing_left = false
 	pass # Replace with function body.
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -60,14 +63,14 @@ func _physics_process(delta: float) -> void:
 	
 	# Check to see if direction has flipped, need to change animation
 	if (!is_turning and velocity.x != 0 and _is_facing_oppisite_of_travel()):
-		if (_animated_sprite.flip_h):			
+		if (facing_left):			
 			_animation_player.play_backwards("turn_r_to_l")
 		else:
 			_animation_player.play("turn_r_to_l")
 		is_turning = true
 
 func _is_facing_oppisite_of_travel():
-	return (sign(velocity.x) == 1 and _animated_sprite.flip_h) or (sign(velocity.x) != 1 and !_animated_sprite.flip_h)
+	return (sign(velocity.x) == 1 and facing_left) or (sign(velocity.x) == -1 and !facing_left)
 
 func get_random_movement_direction() -> Vector2:
 	#TODO: Make more random
@@ -152,10 +155,12 @@ func determine_closest_food_target(food_options: Array[Node]) -> Vector2:
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if (anim_name == "turn_r_to_l"):
 		is_turning = false
-		if (_animated_sprite.flip_h):
-			_animation_player.play("swim_left")
-		else:
+		if (_animated_sprite.frame == 0):
 			_animation_player.play("swim_right")
+			facing_left = false
+		else:
+			_animation_player.play("swim_left")
+			facing_left = true
 
 func _on_mouth_area_entered(area: Area2D) -> void:
 	# Eat the food

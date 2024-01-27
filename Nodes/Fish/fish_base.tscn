@@ -1,25 +1,53 @@
-[gd_scene load_steps=14 format=3 uid="uid://kph8dsufgkl0"]
+[gd_scene load_steps=19 format=3 uid="uid://kph8dsufgkl0"]
 
 [ext_resource type="Script" path="res://Nodes/Fish/FishController.gd" id="1_8q7o5"]
-[ext_resource type="Texture2D" uid="uid://bdrj1xofnwdly" path="res://Sprites/Fish/large_goldfish.png" id="1_qmigc"]
+[ext_resource type="Texture2D" uid="uid://bdrj1xofnwdly" path="res://Sprites/Fish/Large_Goldfish.png" id="2_8nhae"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vd4ed"]
-atlas = ExtResource("1_qmigc")
-region = Rect2(0, 0, 48, 48)
+[sub_resource type="AtlasTexture" id="AtlasTexture_e63wr"]
+atlas = ExtResource("2_8nhae")
+region = Rect2(400, 0, 80, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7vxlj"]
-atlas = ExtResource("1_qmigc")
-region = Rect2(0, 48, 48, 48)
+[sub_resource type="AtlasTexture" id="AtlasTexture_2dc0q"]
+atlas = ExtResource("2_8nhae")
+region = Rect2(0, 0, 80, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0dm3p"]
-atlas = ExtResource("1_qmigc")
-region = Rect2(0, 96, 48, 48)
+[sub_resource type="AtlasTexture" id="AtlasTexture_htdbp"]
+atlas = ExtResource("2_8nhae")
+region = Rect2(0, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwot3"]
+atlas = ExtResource("2_8nhae")
+region = Rect2(80, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2t2yy"]
+atlas = ExtResource("2_8nhae")
+region = Rect2(160, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cu80g"]
+atlas = ExtResource("2_8nhae")
+region = Rect2(240, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d46al"]
+atlas = ExtResource("2_8nhae")
+region = Rect2(320, 0, 80, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u67tj"]
+atlas = ExtResource("2_8nhae")
+region = Rect2(400, 0, 80, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_eh4rk"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vd4ed")
+"texture": SubResource("AtlasTexture_e63wr")
+}],
+"loop": true,
+"name": &"move_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2dc0q")
 }],
 "loop": false,
 "name": &"move_right",
@@ -27,13 +55,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vd4ed")
+"texture": SubResource("AtlasTexture_htdbp")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7vxlj")
+"texture": SubResource("AtlasTexture_pwot3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0dm3p")
+"texture": SubResource("AtlasTexture_2t2yy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cu80g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d46al")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u67tj")
 }],
 "loop": false,
 "name": &"turn",
@@ -41,6 +78,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mrypw"]
+radius = 11.0
 
 [sub_resource type="Animation" id="Animation_1eobq"]
 length = 0.001
@@ -71,26 +109,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Mouth:position")
+tracks/2/path = NodePath("CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("AnimatedSprite2D:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"values": [Vector2(11, -6)]
 }
 
 [sub_resource type="Animation" id="Animation_x4dqw"]
@@ -99,50 +125,38 @@ length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Mouth:position")
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-32, 0)]
+"update": 1,
+"values": [&"move_left"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"move_right"]
+"values": [0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AnimatedSprite2D:flip_h")
+tracks/2/path = NodePath("CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("AnimatedSprite2D:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
+"update": 0,
+"values": [Vector2(11, -6)]
 }
 
 [sub_resource type="Animation" id="Animation_kabkw"]
@@ -175,26 +189,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Mouth:position")
+tracks/2/path = NodePath("CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("AnimatedSprite2D:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"values": [Vector2(-11, -6)]
 }
 
 [sub_resource type="Animation" id="Animation_4t3bl"]
@@ -219,34 +221,22 @@ tracks/1/path = NodePath("AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 1, 0]
+"values": [0, 1, 2, 3, 4, 5]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AnimatedSprite2D:flip_h")
+tracks/2/path = NodePath("CollisionShape2D:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.3, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [false, false, true, true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Mouth:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(-4, 0), Vector2(-15, 0), Vector2(-17, 0), Vector2(-28, 0), Vector2(-32, 0)]
+"values": [Vector2(-11, -6), Vector2(0, -6), Vector2(0, -6), Vector2(11, -6)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_018wy"]
@@ -266,11 +256,13 @@ script = ExtResource("1_8q7o5")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 texture_repeat = 1
+position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_eh4rk")
 animation = &"move_right"
 autoplay = "turn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(11, -6)
 shape = SubResource("CircleShape2D_mrypw")
 
 [node name="HungerTimer" type="Timer" parent="."]
@@ -286,7 +278,6 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="MouthCollider" type="CollisionShape2D" parent="Mouth"]
-position = Vector2(16, 8)
 shape = SubResource("CircleShape2D_oo5h0")
 
 [node name="MovementCooldownTimer" type="Timer" parent="."]

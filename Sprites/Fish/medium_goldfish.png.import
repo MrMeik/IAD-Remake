@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdrj1xofnwdly"
-path="res://.godot/imported/Large_Goldfish.png-251cf3747f27860896cc227a030c102d.ctex"
+uid="uid://nrrumdlr23v7"
+path="res://.godot/imported/medium_goldfish.png-6d0bc8fe61a39f48cbdf068dcabb2da3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Fish/Large_Goldfish.png"
-dest_files=["res://.godot/imported/Large_Goldfish.png-251cf3747f27860896cc227a030c102d.ctex"]
+source_file="res://Sprites/Fish/medium_goldfish.png"
+dest_files=["res://.godot/imported/medium_goldfish.png-6d0bc8fe61a39f48cbdf068dcabb2da3.ctex"]
 
 [params]
 

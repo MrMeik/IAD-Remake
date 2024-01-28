@@ -2,14 +2,16 @@ extends CharacterBody2D
 
 @export var food_source: Node2D
 @onready var _animation_player = $AnimationPlayer
-@onready var _animated_sprite = $AnimatedSprite2D
+@onready var _sprite = $Sprite2D
 @onready var _mouth = $Mouth
 @onready var _movement_cooldown_timer = $MovementCooldownTimer
 @onready var _move_in_direction_timer = $MoveInDirectionTimer
 @onready var _hunger_timer = $HungerTimer
 @onready var _hunger_color_shift_timer = $HungerColorShiftTimer
 @onready var _hunger_death_timer = $HungerDeathTimer
-@onready var _hunger_color_shade = $HungerColor
+
+@onready var _normal_texture: Texture2D = load("res://Sprites/Fish/large_goldfish.png")
+@onready var _hungry_texture: Texture2D = load("res://Sprites/Fish/Large_Goldfish_Hungry.png")
 
 const RESTRICTED_ANGLE: float = 55
 const MOVE_WIDTH: float = 30;
@@ -32,7 +34,7 @@ var passive_movement_vector: Vector2 = Vector2.ZERO
 func _ready():
 	_animation_player.play("swim_right")
 	_hunger_timer.start(8) #Fish will become hungry after 8 seconds	
-	_hunger_color_shade.visible = false
+	_sprite.texture = _normal_texture
 	facing_left = false
 	pass # Replace with function body.
 	
@@ -150,14 +152,13 @@ func determine_closest_food_target(food_options: Array[Node]) -> Vector2:
 		var distance_to: float = mouth_position.distance_squared_to((child as Node2D).position)
 		if (distance_to < min_distance):
 			min_distance = distance_to
-			min_node = child as Node2D
-	
+			min_node = child as Node2D	
 	return min_node.position
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if (anim_name == "turn_r_to_l"):
 		is_turning = false
-		if (_animated_sprite.frame == 0):
+		if (_sprite.region_rect.position.x == 0):
 			_animation_player.play("swim_right")
 			facing_left = false
 		else:
@@ -170,10 +171,10 @@ func _on_mouth_area_entered(area: Area2D) -> void:
 		var food: FishFood = area
 		area.queue_free()
 		is_hungry = false
+		_sprite.texture = _normal_texture
 		_hunger_death_timer.stop()
 		_hunger_color_shift_timer.stop()
 		_hunger_timer.start(food.food_hunger_timeout)
-		_hunger_color_shade.visible = false
 
 func _on_movement_cooldown_timer_timeout() -> void:
 	allow_passive_move = true
@@ -184,16 +185,16 @@ func _on_move_in_direction_timer_timeout() -> void:
 	_movement_cooldown_timer.start(randf_range(1, 6))
 	passive_movement_vector = passive_movement_vector.normalized() * IDLE_SPEED
 
-
 # Timers related to being hungry / dying from hunger
 func _on_hunger_timer_timeout() -> void:
 	is_hungry = true
+	_sprite.texture = _hungry_texture
 	_hunger_color_shift_timer.start()
 	_hunger_death_timer.start()
 
 func _on_hunger_color_shift_timer_timeout() -> void:
 	# Recolor fish to be green (he's hungry)
-	_hunger_color_shade.visible = true 
+	_sprite.texture = _hungry_texture
 	pass # Replace with function body.
 
 func _on_hunger_death_timer_timeout() -> void:

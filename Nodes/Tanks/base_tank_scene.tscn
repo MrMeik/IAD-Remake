@@ -1,13 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=10 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="PackedScene" uid="uid://kph8dsufgkl0" path="res://Nodes/Fish/fish_base.tscn" id="1_pygri"]
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
 [ext_resource type="PackedScene" uid="uid://bd53uinyvkoj" path="res://Nodes/Food/fish_food.tscn" id="3_f5sd5"]
 [ext_resource type="Texture2D" uid="uid://c6c6gdinqh6iq" path="res://Sprites/GUI/Top_GUI.png" id="4_qkrsg"]
+[ext_resource type="PackedScene" uid="uid://ct01vudv7c0o3" path="res://Nodes/GUI/purchase_item.tscn" id="5_40v7j"]
+[ext_resource type="Texture2D" uid="uid://d2fubu5h6fgac" path="res://Sprites/Fish/Small_Goldfish.png" id="6_2mnc2"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ibeik"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hnyi2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7ggq"]
+atlas = ExtResource("6_2mnc2")
+region = Rect2(0, 0, 32, 32)
 
 [node name="TankScene" type="Node2D"]
 
@@ -64,3 +70,23 @@ offset_top = -135.0
 offset_right = 240.0
 offset_bottom = -88.0
 texture = ExtResource("4_qkrsg")
+
+[node name="GridContainer" type="GridContainer" parent="GUI"]
+offset_left = -240.0
+offset_top = -135.0
+offset_right = -200.0
+offset_bottom = -95.0
+columns = 7
+
+[node name="Control" parent="GUI/GridContainer" node_paths=PackedStringArray("item_texture") instance=ExtResource("5_40v7j")]
+layout_mode = 2
+item_texture = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="GUI/GridContainer/Control"]
+layout_mode = 0
+offset_left = 4.0
+offset_right = 44.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_v7ggq")
+expand_mode = 1
+stretch_mode = 2

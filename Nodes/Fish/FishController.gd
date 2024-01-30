@@ -6,6 +6,7 @@ class_name FishController
 @onready var _animation_player = $AnimationPlayer
 @onready var _sprite = $Sprite2D
 @onready var _mouth = $Mouth
+@onready var _mouth_collider: CollisionShape2D = $Mouth/MouthCollider
 @onready var _movement_cooldown_timer = $MovementCooldownTimer
 @onready var _move_in_direction_timer = $MoveInDirectionTimer
 @onready var _hunger_timer = $HungerTimer
@@ -39,6 +40,7 @@ func _ready():
 	_animation_player.play("swim_right")
 	_hunger_timer.start(8) #Fish will become hungry after 8 seconds	
 	_sprite.texture = _normal_texture
+	_mouth_collider.disabled = true
 	facing_left = false
 	pass # Replace with function body.
 	
@@ -179,6 +181,7 @@ func _on_mouth_area_entered(area: Area2D) -> void:
 		var food: FishFood = area
 		area.queue_free()
 		is_hungry = false
+		_mouth_collider.set_deferred("disabled", true)
 		_sprite.texture = _normal_texture
 		_hunger_death_timer.stop()
 		_hunger_color_shift_timer.stop()
@@ -196,7 +199,7 @@ func _on_move_in_direction_timer_timeout() -> void:
 # Timers related to being hungry / dying from hunger
 func _on_hunger_timer_timeout() -> void:
 	is_hungry = true
-	_sprite.texture = _hungry_texture
+	_mouth_collider.disabled = false
 	_hunger_color_shift_timer.start()
 	_hunger_death_timer.start()
 

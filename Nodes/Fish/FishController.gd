@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name FishController
+
 @export var food_source: Node2D
 @onready var _animation_player = $AnimationPlayer
 @onready var _sprite = $Sprite2D
@@ -10,7 +12,7 @@ extends CharacterBody2D
 @onready var _hunger_color_shift_timer = $HungerColorShiftTimer
 @onready var _hunger_death_timer = $HungerDeathTimer
 
-@onready var _normal_texture: Texture2D = load("res://Sprites/Fish/large_goldfish.png")
+@onready var _normal_texture: Texture2D = load("res://Sprites/Fish/Large_Goldfish.png")
 @onready var _hungry_texture: Texture2D = load("res://Sprites/Fish/Large_Goldfish_Hungry.png")
 
 const RESTRICTED_ANGLE: float = 55
@@ -30,6 +32,8 @@ var facing_left: bool = false
 
 var passive_movement_vector: Vector2 = Vector2.ZERO
 
+@export var ai_disabled: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_animation_player.play("swim_right")
@@ -39,29 +43,33 @@ func _ready():
 	pass # Replace with function body.
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:	
+func _physics_process(delta: float) -> void:
+	if (ai_disabled):
+		move_and_slide()
+		return
+	
 	if (!can_move):
 		velocity = passive_movement_vector.normalized() * IDLE_SPEED
-		move_and_slide();
+		move_and_slide()
 		return
 
-	velocity = (get_global_mouse_position() - position).normalized() * MAX_SPEED
+	#velocity = (get_global_mouse_position() - position).normalized() * MAX_SPEED
 
-	#var is_targeting_food: bool = false
-	#if (is_hungry):
-		#var food_options: Array[Node] = food_source.get_children()
-		#if (food_options.size() > 0): 			
-			#is_targeting_food = true
-			#var food_target = determine_closest_food_target(food_options)
-			#if (move_to_target(food_target, delta)):				
-				#pass
-				#
-	#if (!is_targeting_food):
-		#if (allow_passive_move):
-			#passive_movement_vector = get_random_movement_direction()
-			#allow_passive_move = false
-			#_move_in_direction_timer.start(randf_range(3, 6))
-		#velocity = passive_movement_vector
+	var is_targeting_food: bool = false
+	if (is_hungry):
+		var food_options: Array[Node] = food_source.get_children()
+		if (food_options.size() > 0): 			
+			is_targeting_food = true
+			var food_target = determine_closest_food_target(food_options)
+			if (move_to_target(food_target, delta)):				
+				pass
+				
+	if (!is_targeting_food):
+		if (allow_passive_move):
+			passive_movement_vector = get_random_movement_direction()
+			allow_passive_move = false
+			_move_in_direction_timer.start(randf_range(3, 6))
+		velocity = passive_movement_vector
 	#
 	move_and_slide();
 	
@@ -201,3 +209,7 @@ func _on_hunger_death_timer_timeout() -> void:
 	# Fish will now die
 	# TODO: Play starve animation and persist body for a bit
 	queue_free()
+
+
+func _on_buy_goldfish_button_purchase_request(price: int) -> void:
+	pass # Replace with function body.

@@ -27,8 +27,6 @@ func _process(delta: float) -> void:
 			
 			# Add current_timeout which may be negatrive to next timeout to account for render timing differences
 			current_timeout = placement_timeout + current_timeout
-		
-		
 	else:
 		# Reset the timeout when letting go of mouse (meaning can place as fast as mouse click)
 		current_timeout = 0

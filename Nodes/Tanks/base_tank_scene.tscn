@@ -1,19 +1,21 @@
-[gd_scene load_steps=10 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=12 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="PackedScene" uid="uid://kph8dsufgkl0" path="res://Nodes/Fish/fish_base.tscn" id="1_pygri"]
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
 [ext_resource type="PackedScene" uid="uid://bd53uinyvkoj" path="res://Nodes/Food/fish_food.tscn" id="3_f5sd5"]
+[ext_resource type="Script" path="res://Nodes/Tanks/GoldfishSpawner.gd" id="4_pjx4e"]
+[ext_resource type="Script" path="res://Nodes/GUI/GUIController.gd" id="4_q4scu"]
 [ext_resource type="Texture2D" uid="uid://c6c6gdinqh6iq" path="res://Sprites/GUI/Top_GUI.png" id="4_qkrsg"]
 [ext_resource type="PackedScene" uid="uid://ct01vudv7c0o3" path="res://Nodes/GUI/purchase_item.tscn" id="5_40v7j"]
-[ext_resource type="Texture2D" uid="uid://d2fubu5h6fgac" path="res://Sprites/Fish/Small_Goldfish.png" id="6_2mnc2"]
+[ext_resource type="Texture2D" uid="uid://b2gcfdqvd6dco" path="res://Sprites/GUI/Buy_Item.png" id="7_naha8"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ibeik"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hnyi2"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_v7ggq"]
-atlas = ExtResource("6_2mnc2")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ih23l"]
+atlas = ExtResource("7_naha8")
+region = Rect2(0, 0, 20, 20)
 
 [node name="TankScene" type="Node2D"]
 
@@ -27,6 +29,9 @@ process_callback = 0
 [node name="food_spawner" type="Node2D" parent="."]
 script = ExtResource("2_wldbg")
 food_to_spawn = ExtResource("3_f5sd5")
+
+[node name="goldfish_spawner" type="Node2D" parent="."]
+script = ExtResource("4_pjx4e")
 
 [node name="Tank Borders" type="Node" parent="."]
 
@@ -61,10 +66,18 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tank Borders/Top Border"]
 shape = SubResource("WorldBoundaryShape2D_hnyi2")
 
-[node name="GUI" type="Node" parent="."]
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_q4scu")
 
 [node name="TextureRect" type="TextureRect" parent="GUI"]
 texture_filter = 1
+layout_mode = 0
 offset_left = -240.0
 offset_top = -135.0
 offset_right = 240.0
@@ -72,21 +85,23 @@ offset_bottom = -88.0
 texture = ExtResource("4_qkrsg")
 
 [node name="GridContainer" type="GridContainer" parent="GUI"]
-offset_left = -240.0
-offset_top = -135.0
-offset_right = -200.0
-offset_bottom = -95.0
-columns = 7
-
-[node name="Control" parent="GUI/GridContainer" node_paths=PackedStringArray("item_texture") instance=ExtResource("5_40v7j")]
-layout_mode = 2
-item_texture = NodePath("TextureRect")
-
-[node name="TextureRect" type="TextureRect" parent="GUI/GridContainer/Control"]
 layout_mode = 0
-offset_left = 4.0
-offset_right = 44.0
-offset_bottom = 40.0
-texture = SubResource("AtlasTexture_v7ggq")
+offset_left = -238.0
+offset_top = -135.0
+offset_right = 178.0
+offset_bottom = -87.0
+columns = 2
+
+[node name="BuyGoldfishButton" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="GUI/GridContainer/BuyGoldfishButton"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 6.0
+offset_right = 31.0
+offset_bottom = 26.0
+texture = SubResource("AtlasTexture_ih23l")
 expand_mode = 1
-stretch_mode = 2
+
+[connection signal="purchase_request" from="GUI/GridContainer/BuyGoldfishButton" to="GUI" method="_on_buy_goldfish_button_purchase_request"]

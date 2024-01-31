@@ -2,11 +2,16 @@ extends Node2D
 
 class_name GoldfishSpawner
 
+@onready var _collectable_spawner: CollectableSpawner = $"../collectable_spawner"
 @onready var _goldfish: PackedScene = preload("res://Nodes/Fish/fish_base.tscn")
 
 @onready var _food_spawner = $"../food_spawner"
 
 var _managed_goldfish: Array[FishController] = []
+
+func _ready() -> void:
+	buy_goldfish()
+	buy_goldfish()
 
 func _physics_process(delta: float) -> void:
 	var indicies_to_remove = []
@@ -35,5 +40,6 @@ func buy_goldfish() -> void:
 	
 	spawned_fish.velocity = Vector2.DOWN * 400
 	spawned_fish.food_source = _food_spawner
+	spawned_fish.spawn_coin.connect(_collectable_spawner.register_collectable)
 	_managed_goldfish.append(spawned_fish)	
 	add_child(spawned_fish)

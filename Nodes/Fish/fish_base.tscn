@@ -170,6 +170,9 @@ one_shot = true
 wait_time = 10.0
 one_shot = true
 
+[node name="SpawnCoinTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="HungerTimer" to="." method="_on_hunger_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="Mouth" to="." method="_on_mouth_area_entered"]
@@ -177,3 +180,4 @@ one_shot = true
 [connection signal="timeout" from="MoveInDirectionTimer" to="." method="_on_move_in_direction_timer_timeout"]
 [connection signal="timeout" from="HungerColorShiftTimer" to="." method="_on_hunger_color_shift_timer_timeout"]
 [connection signal="timeout" from="HungerDeathTimer" to="." method="_on_hunger_death_timer_timeout"]
+[connection signal="timeout" from="SpawnCoinTimer" to="." method="_on_spawn_coin_timer_timeout"]

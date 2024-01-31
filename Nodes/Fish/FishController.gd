@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 class_name FishController
 
+signal spawn_coin(coin: FallingCollectable)
+
 @export var food_source: Node2D
 @onready var _animation_player = $AnimationPlayer
 @onready var _sprite = $Sprite2D
@@ -13,6 +15,7 @@ class_name FishController
 @onready var _hunger_color_shift_timer = $HungerColorShiftTimer
 @onready var _hunger_death_timer = $HungerDeathTimer
 
+@onready var _coin: PackedScene = preload("res://Nodes/Collectables/gold_coin.tscn")
 @onready var _normal_texture: Texture2D = load("res://Sprites/Fish/Large_Goldfish.png")
 @onready var _hungry_texture: Texture2D = load("res://Sprites/Fish/Large_Goldfish_Hungry.png")
 
@@ -213,6 +216,7 @@ func _on_hunger_death_timer_timeout() -> void:
 	# TODO: Play starve animation and persist body for a bit
 	queue_free()
 
-
-func _on_buy_goldfish_button_purchase_request(price: int) -> void:
-	pass # Replace with function body.
+func _on_spawn_coin_timer_timeout() -> void:
+	var coin_inst: FallingCollectable = _coin.instantiate()
+	coin_inst.global_position = global_position
+	spawn_coin.emit(coin_inst)

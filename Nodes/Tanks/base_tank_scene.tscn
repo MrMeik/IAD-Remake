@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=16 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="PackedScene" uid="uid://kph8dsufgkl0" path="res://Nodes/Fish/fish_base.tscn" id="1_pygri"]
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Nodes/Tanks/GoldfishSpawner.gd" id="4_pjx4e"]
 [ext_resource type="Script" path="res://Nodes/GUI/GUIController.gd" id="4_q4scu"]
 [ext_resource type="Texture2D" uid="uid://c6c6gdinqh6iq" path="res://Sprites/GUI/Top_GUI.png" id="4_qkrsg"]
+[ext_resource type="Script" path="res://Nodes/Tanks/CollectableController.gd" id="5_5paay"]
 [ext_resource type="PackedScene" uid="uid://ct01vudv7c0o3" path="res://Nodes/GUI/purchase_item.tscn" id="5_40v7j"]
 [ext_resource type="Texture2D" uid="uid://b2gcfdqvd6dco" path="res://Sprites/GUI/Buy_Item.png" id="7_naha8"]
 [ext_resource type="Texture2D" uid="uid://bfyfe6jv6jaev" path="res://Sprites/GUI/Money_Display.png" id="9_xp8wf"]
@@ -35,6 +36,9 @@ food_to_spawn = ExtResource("3_f5sd5")
 
 [node name="goldfish_spawner" type="Node2D" parent="."]
 script = ExtResource("4_pjx4e")
+
+[node name="collectable_spawner" type="Node2D" parent="."]
+script = ExtResource("5_5paay")
 
 [node name="Tank Borders" type="Node" parent="."]
 

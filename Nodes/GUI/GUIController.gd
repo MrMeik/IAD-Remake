@@ -3,6 +3,7 @@ extends Control
 class_name GuiController
 
 @onready var _button_container = $GridContainer
+@onready var _money_display: MoneyDisplay = $MoneyDisplay
 
 @onready var _goldfish_spawner: GoldfishSpawner = $"../goldfish_spawner"
 
@@ -12,6 +13,8 @@ var _money: int = 1000
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_money_display.update_display(_money)
+	
 	for node in _button_container.get_children():
 		if node is PurchaseItem:
 			var pi = node as PurchaseItem
@@ -24,6 +27,7 @@ func can_buy(price: int) -> bool:
 	
 func update_price(delta: int):
 	_money = _money + delta
+	_money_display.update_display(_money)
 
 func _on_buy_goldfish_button_purchase_request(price: int) -> void:
 	# Subtract price of purchase from money

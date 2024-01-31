@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=15 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="PackedScene" uid="uid://kph8dsufgkl0" path="res://Nodes/Fish/fish_base.tscn" id="1_pygri"]
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://c6c6gdinqh6iq" path="res://Sprites/GUI/Top_GUI.png" id="4_qkrsg"]
 [ext_resource type="PackedScene" uid="uid://ct01vudv7c0o3" path="res://Nodes/GUI/purchase_item.tscn" id="5_40v7j"]
 [ext_resource type="Texture2D" uid="uid://b2gcfdqvd6dco" path="res://Sprites/GUI/Buy_Item.png" id="7_naha8"]
+[ext_resource type="Texture2D" uid="uid://bfyfe6jv6jaev" path="res://Sprites/GUI/Money_Display.png" id="9_xp8wf"]
+[ext_resource type="Script" path="res://Nodes/GUI/MoneyDisplay.gd" id="10_02yck"]
+[ext_resource type="FontFile" uid="uid://bvrpgr8vft3cs" path="res://Fonts/Large_Numbers.ttf" id="10_d4h0n"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ibeik"]
 
@@ -103,5 +106,44 @@ offset_right = 31.0
 offset_bottom = 26.0
 texture = SubResource("AtlasTexture_ih23l")
 expand_mode = 1
+
+[node name="MoneyDisplay" type="TextureRect" parent="GUI"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 182.0
+offset_top = -113.0
+offset_right = 239.0
+offset_bottom = -95.0
+texture = ExtResource("9_xp8wf")
+expand_mode = 3
+stretch_mode = 2
+script = ExtResource("10_02yck")
+
+[node name="MoneySignLabel" type="RichTextLabel" parent="GUI/MoneyDisplay"]
+clip_contents = false
+layout_mode = 0
+offset_left = 5.0
+offset_top = 7.0
+offset_right = 15.0
+offset_bottom = 17.0
+theme_override_colors/default_color = Color(0, 1, 0, 1)
+theme_override_fonts/normal_font = ExtResource("10_d4h0n")
+theme_override_font_sizes/normal_font_size = 8
+text = "$"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GUI/MoneyDisplay"]
+clip_contents = false
+layout_mode = 0
+offset_left = 5.0
+offset_top = 7.0
+offset_right = 53.0
+offset_bottom = 15.0
+theme_override_colors/default_color = Color(0, 1, 0, 1)
+theme_override_fonts/normal_font = ExtResource("10_d4h0n")
+theme_override_font_sizes/normal_font_size = 8
+text = "100090"
+visible_characters = 7
+visible_ratio = 1.16667
+text_direction = 2
 
 [connection signal="purchase_request" from="GUI/GridContainer/BuyGoldfishButton" to="GUI" method="_on_buy_goldfish_button_purchase_request"]

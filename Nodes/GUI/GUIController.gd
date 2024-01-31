@@ -6,10 +6,13 @@ class_name GuiController
 @onready var _money_display: MoneyDisplay = $MoneyDisplay
 
 @onready var _goldfish_spawner: GoldfishSpawner = $"../goldfish_spawner"
+@onready var _egg_texture: TextureRect = $GridContainer/BuyEgg/TextureRect
 
 var button_bar: Array[PurchaseItem] = []
 
 var _money: int = 1000
+
+var _egg_stage = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,3 +38,14 @@ func _on_buy_goldfish_button_purchase_request(price: int) -> void:
 	
 	# Spawn fish!
 	_goldfish_spawner.buy_goldfish()
+
+func _on_buy_egg_purchase_request(price):
+	update_price(-price)
+	
+	if(_egg_stage == 2):
+		print("game win")
+		get_tree().change_scene_to_file("res://Nodes/TransitionScenes/level_complete.tscn")
+	else:
+		_egg_stage = _egg_stage + 1
+		var x_pos = 60 - 20 * _egg_stage 
+		(_egg_texture.texture as AtlasTexture).region.position = Vector2(x_pos, 0)

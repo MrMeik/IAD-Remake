@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://kph8dsufgkl0"]
 
 [ext_resource type="Script" path="res://Nodes/Fish/FishController.gd" id="1_8q7o5"]
-[ext_resource type="Texture2D" uid="uid://bdrj1xofnwdly" path="res://Sprites/Fish/Large_Goldfish.png" id="2_8nhae"]
+[ext_resource type="Texture2D" uid="uid://bdrj1xofnwdly" path="res://Sprites/Fish/large_goldfish.png" id="2_8nhae"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mrypw"]
 radius = 11.0
@@ -171,6 +171,7 @@ wait_time = 10.0
 one_shot = true
 
 [node name="SpawnCoinTimer" type="Timer" parent="."]
+wait_time = 2.0
 autostart = true
 
 [connection signal="timeout" from="HungerTimer" to="." method="_on_hunger_timer_timeout"]

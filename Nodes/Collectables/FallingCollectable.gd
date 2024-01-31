@@ -5,7 +5,7 @@ class_name FallingCollectable
 signal on_click(value: int)
 
 @onready var _collider = $CollisionShape2D
-@export var _click_value = 15
+@export var _click_value = 35
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

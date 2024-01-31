@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://3bsawcmbp2lp"]
+
+[node name="LevelComplete" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 87.0
+offset_bottom = 40.0
+text = "You win"

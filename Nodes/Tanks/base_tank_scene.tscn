@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=18 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
 [ext_resource type="PackedScene" uid="uid://bd53uinyvkoj" path="res://Nodes/Food/fish_food.tscn" id="3_f5sd5"]
@@ -28,6 +28,10 @@ colors = PackedColorArray(0.522279, 0.677126, 1, 1, 1, 1, 1, 1)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ih23l"]
 atlas = ExtResource("7_naha8")
 region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8laj2"]
+atlas = ExtResource("7_naha8")
+region = Rect2(60, 0, 20, 20)
 
 [node name="TankScene" type="Node2D"]
 
@@ -127,7 +131,7 @@ offset_left = -238.0
 offset_top = -135.0
 offset_right = 178.0
 offset_bottom = -87.0
-columns = 2
+columns = 9
 
 [node name="BuyGoldfishButton" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
@@ -140,6 +144,46 @@ offset_right = 31.0
 offset_bottom = 26.0
 texture = SubResource("AtlasTexture_ih23l")
 expand_mode = 1
+
+[node name="MainContainer" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+is_enabled = false
+
+[node name="MainContainer2" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+is_enabled = false
+
+[node name="MainContainer3" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+is_enabled = false
+
+[node name="MainContainer4" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+is_enabled = false
+
+[node name="MainContainer5" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+is_enabled = false
+
+[node name="MainContainer6" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+is_enabled = false
+
+[node name="MainContainer7" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+is_enabled = false
+
+[node name="BuyEgg" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="GUI/GridContainer/BuyEgg"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 10.0
+offset_top = 7.0
+offset_right = 30.0
+offset_bottom = 27.0
+texture = SubResource("AtlasTexture_8laj2")
 
 [node name="MoneyDisplay" type="TextureRect" parent="GUI"]
 texture_filter = 1
@@ -176,8 +220,7 @@ theme_override_colors/default_color = Color(0, 1, 0, 1)
 theme_override_fonts/normal_font = ExtResource("10_d4h0n")
 theme_override_font_sizes/normal_font_size = 8
 text = "100090"
-visible_characters = 7
-visible_ratio = 1.16667
 text_direction = 2
 
 [connection signal="purchase_request" from="GUI/GridContainer/BuyGoldfishButton" to="GUI" method="_on_buy_goldfish_button_purchase_request"]
+[connection signal="purchase_request" from="GUI/GridContainer/BuyEgg" to="GUI" method="_on_buy_egg_purchase_request"]

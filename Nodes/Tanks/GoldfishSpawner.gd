@@ -5,7 +5,7 @@ class_name GoldfishSpawner
 @onready var _collectable_spawner: CollectableSpawner = $"../collectable_spawner"
 @onready var _goldfish: PackedScene = preload("res://Nodes/Fish/fish_base.tscn")
 
-@onready var _food_spawner = $"../food_spawner"
+@onready var _food_parent = $"../food_spawner/food"
 
 var _managed_goldfish: Array[FishController] = []
 
@@ -39,7 +39,7 @@ func buy_goldfish() -> void:
 	spawned_fish.position = Vector2(x_position, -120 - height_offset)
 	
 	spawned_fish.velocity = Vector2.DOWN * 400
-	spawned_fish.food_source = _food_spawner
+	spawned_fish.food_source = _food_parent
 	spawned_fish.spawn_coin.connect(_collectable_spawner.register_collectable)
 	_managed_goldfish.append(spawned_fish)	
 	add_child(spawned_fish)

@@ -46,8 +46,6 @@ func disable_item():
 	(texture as AtlasTexture).region.position = Vector2(40, 0)
 
 func _on_button_pressed() -> void:
-	disable_item()
-	
 	if(gui_controller.can_buy(price)):
 		 #TODO: Make animation to show can buy
 		purchase_request.emit(price)

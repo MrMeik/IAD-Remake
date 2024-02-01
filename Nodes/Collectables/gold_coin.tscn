@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bxe807y2ixa51"]
+[gd_scene load_steps=20 format=3 uid="uid://bxe807y2ixa51"]
 
 [ext_resource type="Script" path="res://Nodes/Collectables/FallingCollectable.gd" id="1_awqg8"]
 [ext_resource type="Texture2D" uid="uid://dwej8kd3uds0o" path="res://Sprites/Collectable/Gold_Money.png" id="1_vc0rb"]
@@ -84,12 +84,23 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_yg3wk"]
 radius = 9.0
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtnrd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_61ur6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_73wqi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_610yr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o3sw4"]
+
 [node name="gold_coin" type="CharacterBody2D"]
 collision_layer = 8
 input_pickable = true
 script = ExtResource("1_awqg8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_as_relative = false
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_1nmm0")
 autoplay = "default"
@@ -99,4 +110,27 @@ speed_scale = 2.0
 position = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_yg3wk")
 
-[connection signal="input_event" from="." to="." method="_on_input_event"]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 1.5
+offset_right = 19.5
+offset_bottom = 19.5
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vtnrd")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_61ur6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_73wqi")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_610yr")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_o3sw4")
+
+[node name="DepawnTimer" type="Timer" parent="."]
+
+[connection signal="button_down" from="Control/Button" to="." method="_on_button_button_down"]
+[connection signal="timeout" from="DepawnTimer" to="." method="_on_depawn_timer_timeout"]

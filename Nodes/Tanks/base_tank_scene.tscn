@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=33 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
 [ext_resource type="PackedScene" uid="uid://bd53uinyvkoj" path="res://Nodes/Food/fish_food.tscn" id="3_f5sd5"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Nodes/Tanks/CollectableController.gd" id="5_5paay"]
 [ext_resource type="PackedScene" uid="uid://ct01vudv7c0o3" path="res://Nodes/GUI/purchase_item.tscn" id="5_40v7j"]
 [ext_resource type="Texture2D" uid="uid://b2gcfdqvd6dco" path="res://Sprites/GUI/Buy_Item.png" id="7_naha8"]
+[ext_resource type="Texture2D" uid="uid://dhmwpl7fp3ep0" path="res://Sprites/GUI/Purchase_Item.png" id="8_yiijr"]
 [ext_resource type="Texture2D" uid="uid://bfyfe6jv6jaev" path="res://Sprites/GUI/Money_Display.png" id="9_xp8wf"]
 [ext_resource type="Script" path="res://Nodes/GUI/MoneyDisplay.gd" id="10_02yck"]
 [ext_resource type="FontFile" uid="uid://bvrpgr8vft3cs" path="res://Fonts/Large_Numbers.ttf" id="10_d4h0n"]
@@ -21,13 +22,68 @@ point_count = 9
 [sub_resource type="Gradient" id="Gradient_eog38"]
 colors = PackedColorArray(0.522279, 0.677126, 1, 1, 1, 1, 1, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1eg3s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jqe5k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7xd4c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_faxl6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ptjv"]
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ibeik"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hnyi2"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_o87hd"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ih23l"]
 atlas = ExtResource("7_naha8")
 region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8n31r"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asc1c"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uijn2"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixpdy"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d77by"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8oy2g"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58qua"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ulk4"]
+resource_local_to_scene = true
+atlas = ExtResource("8_yiijr")
+region = Rect2(0, 0, 40, 43)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8laj2"]
 atlas = ExtResource("7_naha8")
@@ -67,6 +123,26 @@ color_ramp = SubResource("Gradient_eog38")
 [node name="food_spawner" type="Node2D" parent="."]
 script = ExtResource("2_wldbg")
 food_to_spawn = ExtResource("3_f5sd5")
+
+[node name="food" type="Node2D" parent="food_spawner"]
+
+[node name="click_region" type="Control" parent="food_spawner"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="food_spawner/click_region"]
+layout_mode = 0
+offset_left = -224.0
+offset_top = -73.0
+offset_right = 225.0
+offset_bottom = 124.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1eg3s")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_jqe5k")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_7xd4c")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_faxl6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4ptjv")
 
 [node name="goldfish_spawner" type="Node2D" parent="."]
 script = ExtResource("4_pjx4e")
@@ -135,6 +211,7 @@ columns = 9
 
 [node name="BuyGoldfishButton" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_o87hd")
 
 [node name="TextureRect" type="TextureRect" parent="GUI/GridContainer/BuyGoldfishButton"]
 layout_mode = 0
@@ -147,34 +224,42 @@ expand_mode = 1
 
 [node name="MainContainer" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_8n31r")
 is_enabled = false
 
 [node name="MainContainer2" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_asc1c")
 is_enabled = false
 
 [node name="MainContainer3" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_uijn2")
 is_enabled = false
 
 [node name="MainContainer4" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_ixpdy")
 is_enabled = false
 
 [node name="MainContainer5" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_d77by")
 is_enabled = false
 
 [node name="MainContainer6" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_8oy2g")
 is_enabled = false
 
 [node name="MainContainer7" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_58qua")
 is_enabled = false
 
 [node name="BuyEgg" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
+texture = SubResource("AtlasTexture_4ulk4")
 
 [node name="TextureRect" type="TextureRect" parent="GUI/GridContainer/BuyEgg"]
 texture_filter = 1
@@ -222,5 +307,7 @@ theme_override_font_sizes/normal_font_size = 8
 text = "100090"
 text_direction = 2
 
+[connection signal="button_down" from="food_spawner/click_region/Button" to="food_spawner" method="_on_button_button_down"]
+[connection signal="button_up" from="food_spawner/click_region/Button" to="food_spawner" method="_on_button_button_up"]
 [connection signal="purchase_request" from="GUI/GridContainer/BuyGoldfishButton" to="GUI" method="_on_buy_goldfish_button_purchase_request"]
 [connection signal="purchase_request" from="GUI/GridContainer/BuyEgg" to="GUI" method="_on_buy_egg_purchase_request"]

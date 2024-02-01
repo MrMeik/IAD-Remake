@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://o75lei7n51i2" path="res://Fonts/Small_Numbers.ttf" id="3_8a22b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nmhhf"]
+resource_local_to_scene = true
 atlas = ExtResource("1_wttsf")
 region = Rect2(0, 0, 40, 43)
 

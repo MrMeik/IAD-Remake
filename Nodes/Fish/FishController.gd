@@ -6,6 +6,9 @@ signal spawn_coin(coin: FallingCollectable)
 
 @export var food_source: Node2D
 @onready var _animation_player = $AnimationPlayer
+@onready var _eat_sound_player = $EatFoodSoundPlayer
+@onready var _grow_sound_player = $StageGrowthSoundPlayer
+@onready var _death_sound_player = $DeathSoundPlayer
 @onready var _sprite = $Sprite2D
 @onready var _mouth = $Mouth
 @onready var _mouth_collider: CollisionShape2D = $Mouth/MouthCollider
@@ -146,6 +149,7 @@ func add_growth_points(pts: int) -> void:
 	var new_stage = min(floor(_growth_points / 4), STAGE.Large)
 	if (new_stage != _growth_stage):
 		set_growth_stage(new_stage)
+		_grow_sound_player.play()
 
 func _start_hunger_timer() -> void:
 	# Final hunger time should be 
@@ -258,6 +262,7 @@ func _on_mouth_area_entered(area: Area2D) -> void:
 		_hunger_death_timer.stop()
 		_hunger_color_shift_timer.stop()
 		_start_hunger_timer()
+		_eat_sound_player.play()
 
 func _on_movement_cooldown_timer_timeout() -> void:
 	allow_passive_move = true

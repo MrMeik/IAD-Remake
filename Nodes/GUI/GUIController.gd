@@ -5,14 +5,24 @@ class_name GuiController
 @onready var _button_container = $GridContainer
 @onready var _money_display: MoneyDisplay = $MoneyDisplay
 
+# Purchase Goldfish
 @onready var _goldfish_spawner: GoldfishSpawner = $"../goldfish_spawner"
+
+# Food Quality
+@onready var _food_spawner = $"../food_spawner"
+@onready var _upgrade_food_quality_button = $GridContainer/UpgradeFoodQuality
+@onready var _upgrade_food_quality_texture: TextureRect = $GridContainer/UpgradeFoodQuality/TextureRect
+
+# Purchase Egg
 @onready var _egg_texture: TextureRect = $GridContainer/BuyEgg/TextureRect
+
 
 var button_bar: Array[PurchaseItem] = []
 
 var _money: int = 1000
 
 var _egg_stage = 0
+var _food_stage = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -49,3 +59,15 @@ func _on_buy_egg_purchase_request(price):
 		_egg_stage = _egg_stage + 1
 		var x_pos = 60 - 20 * _egg_stage 
 		(_egg_texture.texture as AtlasTexture).region.position = Vector2(x_pos, 0)
+
+func _on_upgrade_food_quality_purchase_request(price):
+	update_price(-price)
+	
+	_food_stage = _food_stage + 1
+	_food_spawner.set_food_level(_food_stage)
+	
+	if(_food_stage == 1):
+		(_upgrade_food_quality_texture.texture as AtlasTexture).region.position = Vector2(0, 40)
+	
+	if(_food_stage == 2):
+		_upgrade_food_quality_button.disable_item()

@@ -7,13 +7,18 @@ const BASE_GROUND: int = 122
 const DESPAWN_TIME: int = 3
 const HEIGHT_VARIANCE = 5
 
+enum FOOD_QUALITY {
+	POOR = 1,
+	MID = 2,
+	TOP = 3
+}
+
 var hit_ground: bool = false
 @onready var ground_height: int = BASE_GROUND + (randi() % HEIGHT_VARIANCE) - 3
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var despawn_timer: Timer = $Timer
 
-@export var food_hunger_timeout: int = 8
-@export var food_growth_amount: int = 1
+@export var quality: FOOD_QUALITY
 
 func _physics_process(delta: float) -> void:
 	if (!hit_ground):		

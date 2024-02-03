@@ -14,8 +14,9 @@ signal spawn_coin(coin: FallingCollectable)
 @onready var _hunger_timer = $HungerTimer
 @onready var _hunger_color_shift_timer = $HungerColorShiftTimer
 @onready var _hunger_death_timer = $HungerDeathTimer
+@onready var _spawn_coin_timer = $SpawnCoinTimer
 
-@onready var _coin: PackedScene = preload("res://Nodes/Collectables/gold_coin.tscn")
+@onready var _coin: PackedScene
 
 enum STAGE {
 	Baby = 0,
@@ -41,7 +42,14 @@ const FISH_TEXTURE_PATHS: Dictionary = {
 	]
 }
 
-@export var _growth_stage: STAGE = STAGE.Medium
+const COIN_PATHS: Dictionary = {
+	STAGE.Baby: null,
+	STAGE.Medium: "res://Nodes/Collectables/silver_coin.tscn",
+	STAGE.Large: "res://Nodes/Collectables/gold_coin.tscn"
+} 
+
+@export var _growth_stage: STAGE = STAGE.Baby
+@onready var _growth_points: int = _growth_stage * 4
 
 var _normal_texture: Texture2D
 var _hungry_texture: Texture2D
@@ -68,9 +76,9 @@ var passive_movement_vector: Vector2 = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_load_growth_stage_textures(_growth_stage)
+	set_growth_stage(_growth_stage)
 	_animation_player.play("swim_right")
-	_hunger_timer.start(8) #Fish will become hungry after 8 seconds	
+	_start_hunger_timer()
 	_sprite.texture = _normal_texture
 	_mouth_collider.disabled = true
 	facing_left = false
@@ -123,6 +131,27 @@ func _load_growth_stage_textures(stage: STAGE) -> void:
 	_dead_texture = load(paths[2])
 	
 	pass
+	
+func set_growth_stage(stage: STAGE) -> void:
+	_growth_stage = stage
+	_load_growth_stage_textures(stage)
+	
+	var coin_path = COIN_PATHS[stage]	
+	if (coin_path != null):
+		_coin = load(COIN_PATHS[stage])
+		_spawn_coin_timer.start()
+
+func add_growth_points(pts: int) -> void:
+	_growth_points = _growth_points + pts
+	var new_stage = min(floor(_growth_points / 4), STAGE.Large)
+	if (new_stage != _growth_stage):
+		set_growth_stage(new_stage)
+
+func _start_hunger_timer() -> void:
+	# Final hunger time should be 
+	#var hunger_timeout = randf_range(8, 9)
+	var hunger_timeout = 4
+	_hunger_timer.start(hunger_timeout)
 
 func _is_facing_oppisite_of_travel():
 	return (sign(velocity.x) == 1 and facing_left) or (sign(velocity.x) == -1 and !facing_left)
@@ -223,13 +252,12 @@ func _on_mouth_area_entered(area: Area2D) -> void:
 		area.queue_free()
 		is_hungry = false
 		if (_growth_stage != STAGE.Large):
-			_growth_stage = (_growth_stage + 1)
-			_load_growth_stage_textures(_growth_stage)
+			add_growth_points(area.quality)
 		_mouth_collider.set_deferred("disabled", true)
 		_sprite.texture = _normal_texture
 		_hunger_death_timer.stop()
 		_hunger_color_shift_timer.stop()
-		_hunger_timer.start(food.food_hunger_timeout)
+		_start_hunger_timer()
 
 func _on_movement_cooldown_timer_timeout() -> void:
 	allow_passive_move = true

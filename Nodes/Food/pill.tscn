@@ -1,0 +1,91 @@
+[gd_scene load_steps=14 format=3 uid="uid://2o1xjcb0idis"]
+
+[ext_resource type="PackedScene" uid="uid://bd53uinyvkoj" path="res://Nodes/Food/fish_food.tscn" id="1_15xio"]
+[ext_resource type="Texture2D" uid="uid://dg2wbb7cd3gmd" path="res://Sprites/Food/Food_Placeholder.png" id="2_pyo8x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qiuby"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(0, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kxvxw"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(20, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0t6qy"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(40, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xps3v"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(60, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4g43"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(80, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2iiss"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(100, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_506s2"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(120, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udlkm"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(140, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35fi6"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(160, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbmmd"]
+atlas = ExtResource("2_pyo8x")
+region = Rect2(180, 40, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hdk0x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qiuby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kxvxw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0t6qy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xps3v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4g43")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2iiss")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_506s2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udlkm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35fi6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qbmmd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="pill" instance=ExtResource("1_15xio")]
+quality = 3
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_hdk0x")
+frame = 0
+frame_progress = 0.261939
+speed_scale = 1.5

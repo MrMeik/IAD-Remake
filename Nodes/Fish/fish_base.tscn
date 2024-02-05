@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://kph8dsufgkl0"]
 
 [ext_resource type="Script" path="res://Nodes/Fish/FishController.gd" id="1_8q7o5"]
-[ext_resource type="Texture2D" uid="uid://bdrj1xofnwdly" path="res://Sprites/Fish/large_goldfish.png" id="2_8nhae"]
+[ext_resource type="Texture2D" uid="uid://bdrj1xofnwdly" path="res://Sprites/Fish/Large_Goldfish.png" id="2_8nhae"]
 [ext_resource type="AudioStream" uid="uid://to67wjuen6fk" path="res://Sounds/Fish/Goldfish/SLURP.ogg" id="3_lkqns"]
 [ext_resource type="AudioStream" uid="uid://ce3b4gbrhrhps" path="res://Sounds/Fish/Goldfish/SLURP2.ogg" id="4_ll7kd"]
 [ext_resource type="AudioStream" uid="uid://ue2mhgfcwd1l" path="res://Sounds/Fish/Goldfish/SLURP3.ogg" id="5_fdpmr"]

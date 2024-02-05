@@ -18,10 +18,7 @@ const FOOD_PRICE = 5
 
 var _current_timeout: float = 0
 var _is_trying_to_place: bool = false
-
-func _ready() -> void:
-	set_food_level(0)
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if (_is_trying_to_place):

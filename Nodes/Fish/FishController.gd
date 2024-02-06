@@ -105,6 +105,8 @@ func _physics_process(delta: float) -> void:
 			if (scale.y <= .2):
 				_sprite.texture = _dead_texture
 				_animation_player.stop()
+				if (_sprite.region_rect.position.x > 200):
+					_sprite.flip_h = true				
 				_sprite.region_rect.position.x = 0
 				is_shrinking_death = false
 		elif (scale.y < 1):

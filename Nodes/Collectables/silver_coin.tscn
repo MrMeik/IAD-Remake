@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bjw83frr8k5it"]
+[gd_scene load_steps=14 format=3 uid="uid://bi0qdsn32gfm2"]
 
 [ext_resource type="PackedScene" uid="uid://bxe807y2ixa51" path="res://Nodes/Collectables/gold_coin.tscn" id="1_twunj"]
 [ext_resource type="Texture2D" uid="uid://bsmpc4vaekjj2" path="res://Sprites/Collectable/Silver_Money.png" id="2_6rkvs"]
@@ -82,7 +82,6 @@ animations = [{
 }]
 
 [node name="silver_coin" instance=ExtResource("1_twunj")]
-_click_value = 15
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_bp3p6")

@@ -1,7 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://bxe807y2ixa51"]
+[gd_scene load_steps=25 format=3 uid="uid://bxe807y2ixa51"]
 
 [ext_resource type="Script" path="res://Nodes/Collectables/FallingCollectable.gd" id="1_awqg8"]
 [ext_resource type="Texture2D" uid="uid://dwej8kd3uds0o" path="res://Sprites/Collectable/Gold_Money.png" id="1_vc0rb"]
+[ext_resource type="AudioStream" uid="uid://bfgy62dcrn62u" path="res://Sounds/Collectable/POINTS2.ogg" id="3_5vjl3"]
+[ext_resource type="AudioStream" uid="uid://c1j8qmgu0e0sh" path="res://Sounds/Collectable/POINTS.ogg" id="4_6ulno"]
+[ext_resource type="AudioStream" uid="uid://crlvd70f4dum2" path="res://Sounds/Collectable/POINTS3.ogg" id="5_2xpgw"]
+[ext_resource type="AudioStream" uid="uid://b3mvm1yhyymvu" path="res://Sounds/Collectable/POINTS4.ogg" id="6_0jbj3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ktwo8"]
 atlas = ExtResource("1_vc0rb")
@@ -94,6 +98,17 @@ radius = 9.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o3sw4"]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_idn12"]
+streams_count = 4
+stream_0/stream = ExtResource("3_5vjl3")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("4_6ulno")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("5_2xpgw")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("6_0jbj3")
+stream_3/weight = 1.0
+
 [node name="gold_coin" type="CharacterBody2D"]
 collision_layer = 8
 input_pickable = true
@@ -132,5 +147,9 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_o3sw4")
 
 [node name="DepawnTimer" type="Timer" parent="."]
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_idn12")
+
 [connection signal="button_down" from="Control/Button" to="." method="_on_button_button_down"]
 [connection signal="timeout" from="DepawnTimer" to="." method="_on_depawn_timer_timeout"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

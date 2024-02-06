@@ -17,6 +17,7 @@ signal spawn_coin(coin: FallingCollectable)
 @onready var _hunger_timer = $HungerTimer
 @onready var _hunger_color_shift_timer = $HungerColorShiftTimer
 @onready var _hunger_death_timer = $HungerDeathTimer
+@onready var _despawn_timer = $DespawnTimer
 @onready var _spawn_coin_timer = $SpawnCoinTimer
 
 @onready var _coin: PackedScene
@@ -63,6 +64,9 @@ const MOVE_WIDTH: float = 30;
 const MAX_SPEED: float = 60;
 const IDLE_SPEED: float = 2;
 
+var is_dead: bool = false
+var is_shrinking_death: bool = true
+
 var track_position: Vector2 = Vector2.ZERO
 var previous_target_delta: Vector2 = Vector2.ZERO
 var is_hungry: bool = false
@@ -88,9 +92,23 @@ func _ready():
 	pass # Replace with function body.
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _physics_process(delta: float) -> void:	
 	if (ai_disabled):
 		move_and_slide()
+		return
+		
+	if (is_dead):
+		velocity = Vector2.UP * 3
+		move_and_slide()
+		if (is_shrinking_death):
+			scale.y = scale.y - .1
+			if (scale.y <= .2):
+				_sprite.texture = _dead_texture
+				_animation_player.stop()
+				_sprite.region_rect.position.x = 0
+				is_shrinking_death = false
+		elif (scale.y < 1):
+			scale.y = scale.y + .1
 		return
 	
 	if (!can_move):
@@ -286,11 +304,16 @@ func _on_hunger_color_shift_timer_timeout() -> void:
 	pass # Replace with function body.
 
 func _on_hunger_death_timer_timeout() -> void:
-	# Fish will now die
-	# TODO: Play starve animation and persist body for a bit
-	queue_free()
+	is_dead = true
+	_death_sound_player.play()
+	_mouth_collider.disabled = false
+	_spawn_coin_timer.stop()
+	_despawn_timer.start()
 
 func _on_spawn_coin_timer_timeout() -> void:
 	var coin_inst: FallingCollectable = _coin.instantiate()
 	coin_inst.global_position = global_position
 	spawn_coin.emit(coin_inst)
+
+func _on_despawn_timer_timeout():
+	queue_free()

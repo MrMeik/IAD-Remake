@@ -1,20 +1,22 @@
-[gd_scene load_steps=37 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=40 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="PackedScene" uid="uid://bww8crfumumh1" path="res://Nodes/Food/flake.tscn" id="2_ofonc"]
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
-[ext_resource type="PackedScene" path="res://Nodes/Food/green_puff.tscn" id="3_gs7kr"]
+[ext_resource type="PackedScene" uid="uid://xgprodx8k273" path="res://Nodes/Food/green_puff.tscn" id="3_gs7kr"]
 [ext_resource type="Script" path="res://Nodes/Tanks/GoldfishSpawner.gd" id="4_pjx4e"]
 [ext_resource type="Script" path="res://Nodes/GUI/GUIController.gd" id="4_q4scu"]
 [ext_resource type="Texture2D" uid="uid://c6c6gdinqh6iq" path="res://Sprites/GUI/Top_GUI.png" id="4_qkrsg"]
-[ext_resource type="PackedScene" path="res://Nodes/Food/pill.tscn" id="4_tii07"]
+[ext_resource type="PackedScene" uid="uid://2o1xjcb0idis" path="res://Nodes/Food/pill.tscn" id="4_tii07"]
 [ext_resource type="Script" path="res://Nodes/Tanks/CollectableController.gd" id="5_5paay"]
 [ext_resource type="PackedScene" uid="uid://ct01vudv7c0o3" path="res://Nodes/GUI/purchase_item.tscn" id="5_40v7j"]
+[ext_resource type="AudioStream" uid="uid://dhuxooe22wswk" path="res://Sounds/DROPFOOD.ogg" id="5_v8o2f"]
 [ext_resource type="Texture2D" uid="uid://b2gcfdqvd6dco" path="res://Sprites/GUI/Buy_Item.png" id="7_naha8"]
 [ext_resource type="Texture2D" uid="uid://dhmwpl7fp3ep0" path="res://Sprites/GUI/Purchase_Item.png" id="8_yiijr"]
 [ext_resource type="Texture2D" uid="uid://bfyfe6jv6jaev" path="res://Sprites/GUI/Money_Display.png" id="9_xp8wf"]
 [ext_resource type="Script" path="res://Nodes/GUI/MoneyDisplay.gd" id="10_02yck"]
 [ext_resource type="FontFile" uid="uid://bvrpgr8vft3cs" path="res://Fonts/Large_Numbers.ttf" id="10_d4h0n"]
 [ext_resource type="Texture2D" uid="uid://dg2wbb7cd3gmd" path="res://Sprites/Food/Food_Placeholder.png" id="12_eyhdq"]
+[ext_resource type="AudioStream" uid="uid://brmvwjysdkw24" path="res://Sounds/GUI/BUZZER.ogg" id="16_2br5a"]
 
 [sub_resource type="Curve" id="Curve_uhe7l"]
 min_value = -2.0
@@ -24,6 +26,12 @@ point_count = 9
 
 [sub_resource type="Gradient" id="Gradient_eog38"]
 colors = PackedColorArray(0.522279, 0.677126, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_k6y46"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("5_v8o2f")
+stream_0/weight = 1.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1eg3s"]
 
@@ -133,6 +141,9 @@ flake_food = ExtResource("2_ofonc")
 green_puff_food = ExtResource("3_gs7kr")
 pill_food = ExtResource("4_tii07")
 
+[node name="SpawnFoodSoundPlayer" type="AudioStreamPlayer" parent="food_spawner"]
+stream = SubResource("AudioStreamRandomizer_k6y46")
+
 [node name="food" type="Node2D" parent="food_spawner"]
 
 [node name="click_region" type="Control" parent="food_spawner"]
@@ -218,6 +229,7 @@ columns = 9
 [node name="BuyGoldfishButton" parent="GUI/GridContainer" instance=ExtResource("5_40v7j")]
 layout_mode = 2
 texture = SubResource("AtlasTexture_o87hd")
+is_tier_buyable = false
 
 [node name="TextureRect" type="TextureRect" parent="GUI/GridContainer/BuyGoldfishButton"]
 layout_mode = 0
@@ -296,6 +308,10 @@ expand_mode = 3
 stretch_mode = 2
 script = ExtResource("10_02yck")
 
+[node name="FlashTimer" type="Timer" parent="GUI/MoneyDisplay"]
+wait_time = 0.1
+one_shot = true
+
 [node name="MoneySignLabel" type="RichTextLabel" parent="GUI/MoneyDisplay"]
 clip_contents = false
 layout_mode = 0
@@ -321,6 +337,9 @@ theme_override_font_sizes/normal_font_size = 8
 text = "100090"
 text_direction = 2
 
+[node name="CantBuySoundPlayer" type="AudioStreamPlayer" parent="GUI"]
+stream = ExtResource("16_2br5a")
+
 [node name="collectable_spawner" type="Node2D" parent="."]
 script = ExtResource("5_5paay")
 
@@ -329,3 +348,4 @@ script = ExtResource("5_5paay")
 [connection signal="purchase_request" from="GUI/GridContainer/BuyGoldfishButton" to="GUI" method="_on_buy_goldfish_button_purchase_request"]
 [connection signal="purchase_request" from="GUI/GridContainer/UpgradeFoodQuality" to="GUI" method="_on_upgrade_food_quality_purchase_request"]
 [connection signal="purchase_request" from="GUI/GridContainer/BuyEgg" to="GUI" method="_on_buy_egg_purchase_request"]
+[connection signal="timeout" from="GUI/MoneyDisplay/FlashTimer" to="GUI/MoneyDisplay" method="_on_flash_timer_timeout"]

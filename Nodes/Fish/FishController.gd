@@ -5,6 +5,7 @@ class_name FishController
 signal spawn_coin(coin: FallingCollectable)
 
 @export var food_source: Node2D
+@onready var _spawn_sound_player = $SpawnSoundPlayer
 @onready var _animation_player = $AnimationPlayer
 @onready var _eat_sound_player = $EatFoodSoundPlayer
 @onready var _grow_sound_player = $StageGrowthSoundPlayer
@@ -83,6 +84,7 @@ var passive_movement_vector: Vector2 = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_spawn_sound_player.play()
 	set_growth_stage(_growth_stage)
 	_animation_player.play("swim_right")
 	_start_hunger_timer()

@@ -43,3 +43,4 @@ func buy_goldfish() -> void:
 	spawned_fish.spawn_coin.connect(_collectable_spawner.register_collectable)
 	_managed_goldfish.append(spawned_fish)	
 	add_child(spawned_fish)
+	

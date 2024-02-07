@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdrj1xofnwdly"
-path="res://.godot/imported/large_goldfish.png-f966d12cf0cc90a802f940b8f6b67777.ctex"
+uid="uid://ddjlyhr8lxwn"
+path="res://.godot/imported/Money_Display_Glow.png-1e84e6c3e9887e5d945a8f5cd600957a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Fish/large_goldfish.png"
-dest_files=["res://.godot/imported/large_goldfish.png-f966d12cf0cc90a802f940b8f6b67777.ctex"]
+source_file="res://Sprites/GUI/Money_Display_Glow.png"
+dest_files=["res://.godot/imported/Money_Display_Glow.png-1e84e6c3e9887e5d945a8f5cd600957a.ctex"]
 
 [params]
 

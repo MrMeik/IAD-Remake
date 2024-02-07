@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var _gui: GuiController = $"../GUI"
 @onready var _food: Node2D = $food
+@onready var _spawn_food_sound_player: AudioStreamPlayer = $SpawnFoodSoundPlayer
 
 @export var flake_food: PackedScene
 @export var green_puff_food: PackedScene
@@ -32,6 +33,7 @@ func _process(delta: float) -> void:
 			if (is_cursor_out_of_bounds(cursor_position)):
 				return # Can't place food out of bounds
 			
+			_spawn_food_sound_player.play()
 			var inst: FishFood = _food_to_spawn.instantiate()
 			_food.add_child(inst)
 			inst.position = cursor_position

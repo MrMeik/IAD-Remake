@@ -7,9 +7,12 @@ signal purchase_request(price: int)
 # This needs to be assigned
 @export var gui_controller: GuiController
 
+@onready var _buy_tier_sound_player: AudioStreamPlayer = $Control/BuyTierSoundPlayer
+@onready var _buy_item_sound_player: AudioStreamPlayer = $Control/BuyItemSoundPlayer
 @onready var _item_price: RichTextLabel = $Control/ItemPrice
 @onready var _button: Button = $Control/Button
 
+@export var is_tier_buyable: bool = true
 @export var is_enabled: bool = true
 @export var price: int = 100
 
@@ -47,7 +50,9 @@ func disable_item():
 
 func _on_button_pressed() -> void:
 	if(gui_controller.can_buy(price)):
-		 #TODO: Make animation to show can buy
-		purchase_request.emit(price)
-	else:
-		pass #TODO: Make animation to show cannot but
+		if (is_tier_buyable):
+			_buy_tier_sound_player.play()
+		else: 	
+			_buy_item_sound_player.play()
+			
+	purchase_request.emit(price)

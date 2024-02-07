@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://kph8dsufgkl0"]
+[gd_scene load_steps=20 format=3 uid="uid://kph8dsufgkl0"]
 
 [ext_resource type="Script" path="res://Nodes/Fish/FishController.gd" id="1_8q7o5"]
 [ext_resource type="Texture2D" uid="uid://bdrj1xofnwdly" path="res://Sprites/Fish/large_goldfish.png" id="2_8nhae"]
@@ -7,6 +7,9 @@
 [ext_resource type="AudioStream" uid="uid://ue2mhgfcwd1l" path="res://Sounds/Fish/Goldfish/SLURP3.ogg" id="5_fdpmr"]
 [ext_resource type="AudioStream" uid="uid://dtsggmrktg665" path="res://Sounds/Fish/Goldfish/grow.wav" id="6_s735l"]
 [ext_resource type="AudioStream" uid="uid://br6i0fkvjta53" path="res://Sounds/Fish/DIE.ogg" id="7_vdvjn"]
+[ext_resource type="AudioStream" uid="uid://c8u5cwkyinik8" path="res://Sounds/Fish/SPLASH.ogg" id="8_g6wes"]
+[ext_resource type="AudioStream" uid="uid://b2y7kffs1opkw" path="res://Sounds/Fish/SPLASH2.ogg" id="9_2io17"]
+[ext_resource type="AudioStream" uid="uid://x4475dma440f" path="res://Sounds/Fish/SPLASH3.ogg" id="10_m558q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mrypw"]
 radius = 8.0
@@ -142,6 +145,15 @@ stream_1/weight = 1.0
 stream_2/stream = ExtResource("5_fdpmr")
 stream_2/weight = 1.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sc2on"]
+streams_count = 3
+stream_0/stream = ExtResource("8_g6wes")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("9_2io17")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("10_m558q")
+stream_2/weight = 1.0
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 4
 script = ExtResource("1_8q7o5")
@@ -197,6 +209,9 @@ stream = ExtResource("6_s735l")
 stream = ExtResource("7_vdvjn")
 
 [node name="DespawnTimer" type="Timer" parent="."]
+
+[node name="SpawnSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_sc2on")
 
 [connection signal="timeout" from="HungerTimer" to="." method="_on_hunger_timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

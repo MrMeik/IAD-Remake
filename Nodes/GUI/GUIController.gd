@@ -4,6 +4,7 @@ class_name GuiController
 
 @onready var _button_container = $GridContainer
 @onready var _money_display: MoneyDisplay = $MoneyDisplay
+@onready var _cant_buy_sound_player: AudioStreamPlayer = $CantBuySoundPlayer
 
 # Purchase Goldfish
 @onready var _goldfish_spawner: GoldfishSpawner = $"../goldfish_spawner"
@@ -43,6 +44,11 @@ func update_price(delta: int):
 	_money_display.update_display(_money)
 
 func _on_buy_goldfish_button_purchase_request(price: int) -> void:
+	if (!can_buy(price)):
+		# Play error
+		_cant_buy_sound_player.play()
+		_money_display.flash_display()
+		return
 	# Subtract price of purchase from money
 	update_price(-price)
 	
@@ -50,6 +56,11 @@ func _on_buy_goldfish_button_purchase_request(price: int) -> void:
 	_goldfish_spawner.buy_goldfish()
 
 func _on_buy_egg_purchase_request(price):
+	if (!can_buy(price)):
+		# Play error
+		_cant_buy_sound_player.play()
+		_money_display.flash_display()
+		return
 	update_price(-price)
 	
 	if(_egg_stage == 2):
@@ -61,6 +72,11 @@ func _on_buy_egg_purchase_request(price):
 		(_egg_texture.texture as AtlasTexture).region.position = Vector2(x_pos, 0)
 
 func _on_upgrade_food_quality_purchase_request(price):
+	if (!can_buy(price)):
+		# Play error
+		_cant_buy_sound_player.play()
+		_money_display.flash_display()
+		return
 	update_price(-price)
 	
 	_food_stage = _food_stage + 1

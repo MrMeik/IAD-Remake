@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://ct01vudv7c0o3"]
+[gd_scene load_steps=11 format=3 uid="uid://ct01vudv7c0o3"]
 
 [ext_resource type="Script" path="res://Nodes/GUI/PurchaseItem.gd" id="1_jye74"]
 [ext_resource type="Texture2D" uid="uid://dhmwpl7fp3ep0" path="res://Sprites/GUI/Purchase_Item.png" id="1_wttsf"]
 [ext_resource type="FontFile" uid="uid://o75lei7n51i2" path="res://Fonts/Small_Numbers.ttf" id="3_8a22b"]
+[ext_resource type="AudioStream" uid="uid://bnlfjm6qerf2a" path="res://Sounds/GUI/buttonclick.wav" id="3_mcjti"]
+[ext_resource type="AudioStream" uid="uid://brfrg8jwdtfjg" path="res://Sounds/GUI/BUY.ogg" id="4_o7wck"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nmhhf"]
 resource_local_to_scene = true
@@ -28,6 +30,12 @@ script = ExtResource("1_jye74")
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 43.0
+
+[node name="BuyItemSoundPlayer" type="AudioStreamPlayer" parent="Control"]
+stream = ExtResource("3_mcjti")
+
+[node name="BuyTierSoundPlayer" type="AudioStreamPlayer" parent="Control"]
+stream = ExtResource("4_o7wck")
 
 [node name="ItemPrice" type="RichTextLabel" parent="Control"]
 layout_mode = 0

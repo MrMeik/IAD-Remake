@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://cytie2hs1n5tk"]
+[gd_scene load_steps=41 format=3 uid="uid://cytie2hs1n5tk"]
 
 [ext_resource type="PackedScene" uid="uid://bww8crfumumh1" path="res://Nodes/Food/flake.tscn" id="2_ofonc"]
 [ext_resource type="Script" path="res://Nodes/Tanks/FoodSpawner.gd" id="2_wldbg"]
@@ -17,6 +17,7 @@
 [ext_resource type="FontFile" uid="uid://bvrpgr8vft3cs" path="res://Fonts/Large_Numbers.ttf" id="10_d4h0n"]
 [ext_resource type="Texture2D" uid="uid://dg2wbb7cd3gmd" path="res://Sprites/Food/Food_Placeholder.png" id="12_eyhdq"]
 [ext_resource type="AudioStream" uid="uid://brmvwjysdkw24" path="res://Sounds/GUI/BUZZER.ogg" id="16_2br5a"]
+[ext_resource type="AudioStream" uid="uid://b7um0isnp2n5e" path="res://Sounds/Music/Tank1.mp3" id="18_oxvnc"]
 
 [sub_resource type="Curve" id="Curve_uhe7l"]
 min_value = -2.0
@@ -342,6 +343,11 @@ stream = ExtResource("16_2br5a")
 
 [node name="collectable_spawner" type="Node2D" parent="."]
 script = ExtResource("5_5paay")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_oxvnc")
+volume_db = -5.292
+autoplay = true
 
 [connection signal="button_down" from="food_spawner/click_region/Button" to="food_spawner" method="_on_button_button_down"]
 [connection signal="button_up" from="food_spawner/click_region/Button" to="food_spawner" method="_on_button_button_up"]
